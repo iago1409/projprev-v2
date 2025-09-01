@@ -13,6 +13,7 @@ import { FormDataService } from '../services/formDataService';
 
 // Interface para os dados do formulário
 interface SucessaoVinculoData {
+  preencherInfo: boolean;
   tpInsc: string;
   nrInsc: string;
   matricAnt: string;
@@ -35,6 +36,7 @@ export const SucessaoVinculo: React.FC = () => {
   
   // Estado do formulário
   const [formData, setFormData] = useState<SucessaoVinculoData>({
+    preencherInfo: false,
     tpInsc: '',
     nrInsc: '',
     matricAnt: '',
@@ -63,6 +65,7 @@ export const SucessaoVinculo: React.FC = () => {
         try {
           const savedData = await FormDataService.getFormData(cpf);
           setFormData({
+            preencherInfo: savedData.preencherInfo || false,
             tpInsc: savedData.tpInsc || '',
             nrInsc: savedData.nrInsc || '',
             matricAnt: savedData.matricAnt || '',
@@ -94,7 +97,8 @@ export const SucessaoVinculo: React.FC = () => {
   
   // Função para atualizar campos do formulário
   const handleFieldChange = async (field: keyof SucessaoVinculoData, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    const newValue = field === 'preencherInfo' ? value === 'true' : value;
+    setFormData(prev => ({ ...prev, [field]: newValue }));
     
     // Limpar erro do campo quando começar a digitar
     if (errors[field]) {
@@ -102,17 +106,51 @@ export const SucessaoVinculo: React.FC = () => {
     }
     
     // Salvar automaticamente
-    if (cpf && value.trim() !== '') {
+    if (cpf && (field === 'preencherInfo' || value.trim() !== '')) {
       try {
-        await FormDataService.saveField(cpf, field, value);
+        await FormDataService.saveField(cpf, field, field === 'preencherInfo' ? String(newValue) : value);
       } catch (error) {
         console.error('Erro ao salvar campo:', error);
       }
     }
   };
   
+  // Função especial para o checkbox
+  const handleCheckboxChange = (checked: boolean) => {
+    setFormData(prev => ({ ...prev, preencherInfo: checked }));
+    
+    // Se desmarcou, limpar todos os campos
+    if (!checked) {
+      setFormData(prev => ({
+        ...prev,
+        preencherInfo: false,
+        tpInsc: '',
+        nrInsc: '',
+        matricAnt: '',
+        dtTransf: ''
+      }));
+      
+      // Limpar erros
+      setErrors({});
+    }
+    
+    // Salvar estado do checkbox
+    if (cpf) {
+      try {
+        FormDataService.saveField(cpf, 'preencherInfo', String(checked));
+      } catch (error) {
+        console.error('Erro ao salvar checkbox:', error);
+      }
+    }
+  };
+  
   // Função de validação
   const validateForm = (): boolean => {
+    // Se não marcou para preencher, não há o que validar
+    if (!formData.preencherInfo) {
+      return true;
+    }
+    
     const newErrors: FormErrors = {};
     
     // Validar tipo de inscrição (obrigatório)
@@ -204,51 +242,75 @@ export const SucessaoVinculo: React.FC = () => {
           Dados de Sucessão de Vínculo
         </h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Tipo de inscrição do empregador anterior */}
-          <SelectInput
-            value={formData.tpInsc}
-            onChange={(value) => handleFieldChange('tpInsc', value)}
-            options={tipoInscricaoOptions}
-            label="Tipo de inscrição do empregador anterior"
-            placeholder="Selecione o tipo de inscrição"
-            required
-            error={errors.tpInsc}
-          />
-          
-          {/* Número de inscrição do empregador anterior */}
-          <TextInput
-            value={formData.nrInsc}
-            onChange={(value) => handleFieldChange('nrInsc', value)}
-            label="Número de inscrição do empregador anterior"
-            placeholder="Digite o número de inscrição"
-            required
-            error={errors.nrInsc}
-            maxLength={14}
-            tooltip="Informar o número de inscrição do empregador anterior, de acordo com o tipo de inscrição indicado"
-          />
-          
-          {/* Matrícula no empregador anterior */}
-          <TextInput
-            value={formData.matricAnt}
-            onChange={(value) => handleFieldChange('matricAnt', value)}
-            label="Matrícula no empregador anterior"
-            placeholder="Digite a matrícula anterior"
-            error={errors.matricAnt}
-            maxLength={30}
-            tooltip="Matrícula do trabalhador no empregador anterior (opcional)"
-          />
-          
-          {/* Data da transferência para o empregador atual */}
-          <DateInput
-            value={formData.dtTransf}
-            onChange={(value) => handleFieldChange('dtTransf', value)}
-            label="Data da transferência para o empregador atual"
-            placeholder="DD/MM/AAAA"
-            required
-            error={errors.dtTransf}
-            tooltip="Preencher com a data da transferência do empregado para o empregador declarante"
-          />
+        {/* Caixinha de controle */}
+        <div className="mb-8">
+          <div className="bg-blue-50 p-6 rounded-lg">
+            <label className="flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={formData.preencherInfo}
+                onChange={(e) => handleCheckboxChange(e.target.checked)}
+                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              />
+              <span className="ml-3 text-lg font-medium text-gray-900">
+                Preencher informações?
+              </span>
+            </label>
+            <p className="mt-2 text-sm text-gray-600 ml-7">
+              Marque esta opção se deseja preencher as informações de sucessão de vínculo
+            </p>
+          </div>
+        </div>
+        
+        {/* Campos do formulário - só aparecem se checkbox marcado */}
+        {formData.preencherInfo && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Tipo de inscrição do empregador anterior */}
+            <SelectInput
+              value={formData.tpInsc}
+              onChange={(value) => handleFieldChange('tpInsc', value)}
+              options={tipoInscricaoOptions}
+              label="Tipo de inscrição do empregador anterior"
+              placeholder="Selecione o tipo de inscrição"
+              required
+              error={errors.tpInsc}
+            />
+            
+            {/* Número de inscrição do empregador anterior */}
+            <TextInput
+              value={formData.nrInsc}
+              onChange={(value) => handleFieldChange('nrInsc', value)}
+              label="Número de inscrição do empregador anterior"
+              placeholder="Digite o número de inscrição"
+              required
+              error={errors.nrInsc}
+              maxLength={14}
+              tooltip="Informar o número de inscrição do empregador anterior, de acordo com o tipo de inscrição indicado"
+            />
+            
+            {/* Matrícula no empregador anterior */}
+            <TextInput
+              value={formData.matricAnt}
+              onChange={(value) => handleFieldChange('matricAnt', value)}
+              label="Matrícula no empregador anterior"
+              placeholder="Digite a matrícula anterior"
+              error={errors.matricAnt}
+              maxLength={30}
+              tooltip="Matrícula do trabalhador no empregador anterior (opcional)"
+            />
+            
+            {/* Data da transferência para o empregador atual */}
+            <DateInput
+              value={formData.dtTransf}
+              onChange={(value) => handleFieldChange('dtTransf', value)}
+              label="Data da transferência para o empregador atual"
+              placeholder="DD/MM/AAAA"
+              required
+              error={errors.dtTransf}
+              tooltip="Preencher com a data da transferência do empregado para o empregador declarante"
+            />
+          </div>
+        )}
         </div>
       </div>
       
