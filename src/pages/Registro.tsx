@@ -539,7 +539,3 @@ export const Registro: React.FC = () => {
       }
   )
 }
-      )
-      }
-  )
-}
