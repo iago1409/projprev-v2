@@ -415,10 +415,11 @@ export const Registro: React.FC = () => {
               </div>
             </div>
           </div>
-        )}
-        
-        {activeTab === 'complementares' && (
-          <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+          
+          {/* Seção de Informações Complementares do Contrato */}
+          <div className="md:col-span-2 mt-8 pt-8 border-t border-gray-200">
+            <h3 className="text-lg font-medium text-gray-900 mb-6">Informações Complementares do Contrato</h3>
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Código CBO */}
               <TextInput
@@ -453,12 +454,11 @@ export const Registro: React.FC = () => {
               />
             </div>
           </div>
-        )}
-        
-        {activeTab === 'consolidacao' && <ConsolidacaoTab cpf={cpf} />}
-        
-        {activeTab === 'vinculo' && (
-          <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+          
+          {/* Seção de Informações de Vínculo Trabalhista */}
+          <div className="md:col-span-2 mt-8 pt-8 border-t border-gray-200">
+            <h3 className="text-lg font-medium text-gray-900 mb-6">Informações de Vínculo Trabalhista</h3>
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Tipo de regime trabalhista */}
               <SelectInput
@@ -553,6 +553,8 @@ export const Registro: React.FC = () => {
             </div>
           </div>
         )}
+        
+        {activeTab === 'consolidacao' && <ConsolidacaoTab cpf={cpf} />}
         
         {/* Action Buttons */}
         <ActionButtons
