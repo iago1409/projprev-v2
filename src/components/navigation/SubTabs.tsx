@@ -10,8 +10,14 @@ export const SubTabs: React.FC<SubTabsProps> = ({ activeTab, cpf }) => {
   const navigate = useNavigate();
   
   const handleTabClick = (tab: string) => {
-    const query = cpf ? `?cpf=${cpf}&tab=${tab}` : `?tab=${tab}`;
-    navigate(`/registrar${query}`);
+    const query = cpf ? `?cpf=${cpf}` : '';
+    
+    if (tab === 'sucessao') {
+      navigate(`/processo/sucessaovinculo${query}`);
+    } else {
+      const tabQuery = cpf ? `?cpf=${cpf}&tab=${tab}` : `?tab=${tab}`;
+      navigate(`/registrar${tabQuery}`);
+    }
   };
   
   return (
