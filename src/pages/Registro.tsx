@@ -188,7 +188,7 @@ export const Registro: React.FC = () => {
     }
     
     // Validações da aba de vínculo trabalhista
-    if (activeTab === 'contrato') {
+    if (activeTab === 'vinculo') {
       if (!formData.tpRegTrab) {
         newErrors.tpRegTrab = 'Campo obrigatório';
       }
@@ -372,49 +372,11 @@ export const Registro: React.FC = () => {
 
             </div>
           </div>
-          
-          {/* Seção de Informações Complementares do Contrato */}
-          <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
-            <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
-              Informações Complementares do Contrato
-            </h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Código CBO */}
-              <TextInput
-                value={formData.codCBO || ''}
-                onChange={(value) => handleFieldChange('codCBO', value)}
-                label="Código CBO"
-                placeholder="Digite o código CBO (6 dígitos)"
-                maxLength={6}
-                error={errors.codCBO}
-                tooltip="Código da CBO – Classificação Brasileira de Ocupações (6 posições numéricas)"
-              />
-              
-              {/* Natureza da Atividade */}
-              <SelectInput
-                value={formData.natAtividadeCompl || ''}
-                onChange={(value) => handleFieldChange('natAtividadeCompl', value)}
-                options={[
-                  {
-                    value: '1',
-                    label: 'Trabalho urbano',
-                    description: 'Atividade desenvolvida em área urbana'
-                  },
-                  {
-                    value: '2', 
-                    label: 'Trabalho rural',
-                    description: 'Atividade desenvolvida em área rural'
-                  }
-                ]}
-                label="Natureza da Atividade"
-                placeholder="Selecione a natureza da atividade"
-                error={errors.natAtividadeCompl}
-              />
-            </div>
-          </div>
-          
-          {/* Seção de Informações de Vínculo Trabalhista */}
+          </>
+        )}
+              {/* Seção de Indicadores do Processo */}
+        {/* Aba de Vínculo Trabalhista */}
+        {activeTab === 'vinculo' && (
           <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
             <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
               Informações de Vínculo Trabalhista
@@ -468,10 +430,8 @@ export const Registro: React.FC = () => {
               />
             </div>
           </div>
-          </>
         )}
         
-        {/* Seção de Indicadores do Processo */}
         <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
           <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
             Indicadores do Processo
@@ -623,64 +583,47 @@ export const Registro: React.FC = () => {
           </div>
         </div>
         
-        {/* Seção de Informações de Vínculo Trabalhista */}
+        {/* Seção de Informações Complementares do Contrato */}
         <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
           <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
-            Informações de Vínculo Trabalhista
+            Informações Complementares do Contrato
           </h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Tipo de Regime Trabalhista */}
-            <div className="md:col-span-2">
-              <SelectInput
-                value={formData.tpRegTrab || ''}
-                onChange={(value) => handleFieldChange('tpRegTrab', value)}
-                options={tipoRegimeTrabOptions}
-                label="Tipo de regime trabalhista"
-                placeholder="Selecione o tipo de regime trabalhista"
-                required
-                error={errors.tpRegTrab}
-              />
-            </div>
-            
-            {/* Tipo de Regime Previdenciário */}
-            <div className="md:col-span-2">
-              <SelectInput
-                value={formData.tpRegPrev || ''}
-                onChange={(value) => handleFieldChange('tpRegPrev', value)}
-                options={tipoRegimePrevOptions}
-                label="Tipo de regime previdenciário"
-                placeholder="Selecione o tipo de regime previdenciário"
-                required
-                error={errors.tpRegPrev}
-              />
-            </div>
-            
-            {/* Data de Admissão */}
-            <DateInput
-              value={formData.dtAdm || ''}
-              onChange={(value) => handleFieldChange('dtAdm', value)}
-              label="Data de admissão"
-              required
-              error={errors.dtAdm}
-              tooltip="Data de admissão do trabalhador. Deve ser posterior à data de nascimento."
+            {/* Código CBO */}
+            <TextInput
+              value={formData.codCBO || ''}
+              onChange={(value) => handleFieldChange('codCBO', value)}
+              label="Código CBO"
+              placeholder="Digite o código CBO (6 dígitos)"
+              maxLength={6}
+              error={errors.codCBO}
+              tooltip="Código da CBO – Classificação Brasileira de Ocupações (6 posições numéricas)"
             />
             
-            {/* Código relativo ao tipo de contrato em tempo parcial */}
+            {/* Natureza da Atividade */}
             <SelectInput
-              value={formData.tpRegTrabParc || ''}
-              onChange={(value) => handleFieldChange('tpRegTrabParc', value)}
-              options={tipoContratoParcialOptions}
-              label="Código relativo ao tipo de contrato em tempo parcial"
-              placeholder="Selecione o tipo de contrato"
-              error={errors.tpRegTrabParc}
+              value={formData.natAtividadeCompl || ''}
+              onChange={(value) => handleFieldChange('natAtividadeCompl', value)}
+              options={[
+                {
+                  value: '1',
+                  label: 'Trabalho urbano',
+                  description: 'Atividade desenvolvida em área urbana'
+                },
+                {
+                  value: '2', 
+                  label: 'Trabalho rural',
+                  description: 'Atividade desenvolvida em área rural'
+                }
+              ]}
+              label="Natureza da Atividade"
+              placeholder="Selecione a natureza da atividade"
+              error={errors.natAtividadeCompl}
             />
           </div>
         </div>
-        </>
-        )}
         
-        {/* Aba de Consolidação */}
         {activeTab === 'consolidacao' && <ConsolidacaoTab cpf={cpf} />}
         
         {/* Action Buttons */}
