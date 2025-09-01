@@ -14,8 +14,189 @@ import { TextInput } from '../components/TextInput';
 import { DateInput } from '../components/DateInput';
 import { RadioGroup } from '../components/RadioGroup';
 import { ConsolidacaoTab } from '../components/ConsolidacaoTab';
-import { VinculosIncorporadosTab } from '../components/VinculosIncorporadosTab';
 import { tipoContratoOptions } from '../data/tipoContratoOptions';
+
+// Componente para aba de Sucessão de Vínculo
+const SucessaoVinculoTab: React.FC<{ cpf: string; formData: any; onFieldChange: any; errors: any }> = ({ 
+  cpf, formData, onFieldChange, errors 
+}) => {
+  const [showFields, setShowFields] = useState(false);
+  
+  const tipoInscricaoOptions = [
+    { value: '', label: 'Selecione o tipo de inscrição', description: 'Selecione uma das opções disponíveis' },
+    { value: '1', label: '1 - CNPJ', description: 'Cadastro Nacional da Pessoa Jurídica' },
+    { value: '2', label: '2 - CPF', description: 'Cadastro de Pessoas Físicas' },
+    { value: '5', label: '5 - CGC', description: 'Cadastro Geral de Contribuintes' },
+    { value: '6', label: '6 - CEI', description: 'Cadastro Específico do INSS' }
+  ];
+  
+  const handleCheckboxChange = (checked: boolean) => {
+    setShowFields(checked);
+    
+    if (!checked) {
+      // Limpar todos os campos quando desmarcado
+      onFieldChange('tpInsc', '');
+      onFieldChange('nrInsc', '');
+      onFieldChange('matricAnt', '');
+      onFieldChange('dtTransf', '');
+    }
+  };
+  
+  return (
+    <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+      <h2 className="text-xl font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-200">
+        Dados de Sucessão de Vínculo
+      </h2>
+      
+      {/* Caixinha de controle */}
+      <div className="mb-8">
+        <div className="bg-blue-50 p-6 rounded-lg">
+          <label className="flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              checked={showFields}
+              onChange={(e) => handleCheckboxChange(e.target.checked)}
+              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            />
+            <span className="ml-3 text-lg font-medium text-gray-900">
+              Preencher informações?
+            </span>
+          </label>
+          <p className="mt-2 text-sm text-gray-600 ml-7">
+            Marque esta opção se deseja preencher as informações de sucessão de vínculo
+          </p>
+        </div>
+      </div>
+      
+      {/* Campos do formulário - só aparecem se checkbox marcado */}
+      {showFields && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <SelectInput
+            value={formData.tpInsc || ''}
+            onChange={(value) => onFieldChange('tpInsc', value)}
+            options={tipoInscricaoOptions}
+            label="Tipo de inscrição do empregador anterior"
+            placeholder="Selecione o tipo de inscrição"
+            required
+            error={errors.tpInsc}
+          />
+          
+          <TextInput
+            value={formData.nrInsc || ''}
+            onChange={(value) => onFieldChange('nrInsc', value)}
+            label="Número de inscrição do empregador anterior"
+            placeholder="Digite o número de inscrição"
+            required
+            error={errors.nrInsc}
+            maxLength={14}
+            tooltip="Informar o número de inscrição do empregador anterior, de acordo com o tipo de inscrição indicado"
+          />
+          
+          <TextInput
+            value={formData.matricAnt || ''}
+            onChange={(value) => onFieldChange('matricAnt', value)}
+            label="Matrícula no empregador anterior"
+            placeholder="Digite a matrícula anterior"
+            error={errors.matricAnt}
+            maxLength={30}
+            tooltip="Matrícula do trabalhador no empregador anterior (opcional)"
+          />
+          
+          <DateInput
+            value={formData.dtTransf || ''}
+            onChange={(value) => onFieldChange('dtTransf', value)}
+            label="Data da transferência para o empregador atual"
+            placeholder="DD/MM/AAAA"
+            required
+            error={errors.dtTransf}
+            tooltip="Preencher com a data da transferência do empregado para o empregador declarante"
+          />
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Componente para aba de Término de TSVE
+const TerminoTSVETab: React.FC<{ cpf: string; formData: any; onFieldChange: any; errors: any }> = ({ 
+  cpf, formData, onFieldChange, errors 
+}) => {
+  const [showFields, setShowFields] = useState(false);
+  
+  const motivoDesligamentoOptions = [
+    { value: '', label: 'Selecione o motivo', description: 'Selecione uma das opções disponíveis' },
+    { value: '01', label: '01 - Exoneração do diretor não empregado sem justa causa', description: 'Por deliberação da assembleia dos sócios cotistas ou da autoridade competente' },
+    { value: '02', label: '02 - Término de mandato do diretor não empregado', description: 'Que não tenha sido reconduzido ao cargo' },
+    { value: '03', label: '03 - Exoneração a pedido do diretor não empregado', description: 'Por solicitação própria' },
+    { value: '04', label: '04 - Exoneração do diretor não empregado por culpa recíproca', description: 'Ou força maior' },
+    { value: '05', label: '05 - Morte do diretor não empregado', description: 'Falecimento' },
+    { value: '06', label: '06 - Exoneração do diretor não empregado por falência', description: 'Encerramento ou supressão de parte da empresa' },
+    { value: '99', label: '99 - Outros', description: 'Outros motivos não especificados' }
+  ];
+  
+  const handleCheckboxChange = (checked: boolean) => {
+    setShowFields(checked);
+    
+    if (!checked) {
+      // Limpar todos os campos quando desmarcado
+      onFieldChange('dtTerm', '');
+      onFieldChange('mtvDesligTSV', '');
+    }
+  };
+  
+  return (
+    <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+      <h2 className="text-xl font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-200">
+        Dados de Término de TSVE
+      </h2>
+      
+      {/* Caixinha de controle */}
+      <div className="mb-8">
+        <div className="bg-blue-50 p-6 rounded-lg">
+          <label className="flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              checked={showFields}
+              onChange={(e) => handleCheckboxChange(e.target.checked)}
+              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            />
+            <span className="ml-3 text-lg font-medium text-gray-900">
+              Preencher informações?
+            </span>
+          </label>
+          <p className="mt-2 text-sm text-gray-600 ml-7">
+            Marque esta opção se deseja preencher as informações de término de TSVE
+          </p>
+        </div>
+      </div>
+      
+      {/* Campos do formulário - só aparecem se checkbox marcado */}
+      {showFields && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <DateInput
+            value={formData.dtTerm || ''}
+            onChange={(value) => onFieldChange('dtTerm', value)}
+            label="Data do término"
+            placeholder="DD/MM/AAAA"
+            required
+            error={errors.dtTerm}
+            tooltip="Preencher com a data do término do TSVE"
+          />
+          
+          <SelectInput
+            value={formData.mtvDesligTSV || ''}
+            onChange={(value) => onFieldChange('mtvDesligTSV', value)}
+            options={motivoDesligamentoOptions}
+            label="Motivo do desligamento TSVE"
+            placeholder="Selecione o motivo"
+            required
+            error={errors.mtvDesligTSV}
+          />
+        </div>
+      )}
+    </div>
+  );
+};
 
 export const Registro: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -29,7 +210,15 @@ export const Registro: React.FC = () => {
     dtInicio: '',
     dtAdmOrig: '',
     indReintegr: '',
-    indContr: 'S' // Default para S
+    indContr: 'S', // Default para S
+    // Campos de sucessão de vínculo
+    tpInsc: '',
+    nrInsc: '',
+    matricAnt: '',
+    dtTransf: '',
+    // Campos de término de TSVE
+    dtTerm: '',
+    mtvDesligTSV: ''
   });
   
   const [errors, setErrors] = useState<FormErrors>({});
@@ -60,6 +249,24 @@ export const Registro: React.FC = () => {
   
   // Verificar se dtAdmOrig é obrigatório
   const isDtAdmOrigRequired = ['2', '4'].includes(formData.tpContr);
+  
+  // Validações específicas para sucessão de vínculo
+  const validateSucessaoVinculo = (): boolean => {
+    if (activeTab !== 'sucessao') return true;
+    
+    // Se não marcou para preencher, não há o que validar
+    // (isso será controlado pelo componente interno)
+    return true;
+  };
+  
+  // Validações específicas para término de TSVE
+  const validateTerminoTSVE = (): boolean => {
+    if (activeTab !== 'termino') return true;
+    
+    // Se não marcou para preencher, não há o que validar
+    // (isso será controlado pelo componente interno)
+    return true;
+  };
   
   const handleFieldChange = async (field: keyof ContratoFormData, value: string) => {
     const newFormData = { ...formData, [field]: value };
@@ -151,6 +358,11 @@ export const Registro: React.FC = () => {
     
     if (!formData.indMotDeslig) {
       newErrors.indMotDeslig = 'Campo obrigatório';
+    }
+    
+    // Validações específicas por aba
+    if (!validateSucessaoVinculo() || !validateTerminoTSVE()) {
+      return false;
     }
     
     setErrors(newErrors);
@@ -558,7 +770,23 @@ export const Registro: React.FC = () => {
         
         {activeTab === 'consolidacao' && <ConsolidacaoTab cpf={cpf} />}
         
-        {activeTab === 'vinculos-incorporados' && <VinculosIncorporadosTab cpf={cpf} />}
+        {activeTab === 'sucessao' && (
+          <SucessaoVinculoTab 
+            cpf={cpf} 
+            formData={formData} 
+            onFieldChange={handleFieldChange} 
+            errors={errors} 
+          />
+        )}
+        
+        {activeTab === 'termino' && (
+          <TerminoTSVETab 
+            cpf={cpf} 
+            formData={formData} 
+            onFieldChange={handleFieldChange} 
+            errors={errors} 
+          />
+        )}
         
         {/* Action Buttons */}
         <ActionButtons
