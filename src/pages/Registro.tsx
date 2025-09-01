@@ -520,7 +520,8 @@ export const Registro: React.FC = () => {
             </div>
           </div>
           </>
-                          {/* Seção de Informações do Desligamento */}
+            
+                      {/* Seção de Informações do Desligamento */}
               <div className="md:col-span-2 mt-8 pt-8 border-t border-gray-200">
                 <h3 className="text-lg font-medium text-gray-900 mb-6">Informações do Desligamento</h3>
                 
@@ -626,8 +627,7 @@ export const Registro: React.FC = () => {
                 <li>A data projetada do aviso prévio é opcional e deve ser posterior à data de desligamento</li>
               </ul>
             </div>
-          </div>
-        )}
+          </div>)}
         
         {activeTab === 'consolidacao' && <ConsolidacaoTab cpf={cpf} />}
         
