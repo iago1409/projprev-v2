@@ -571,4 +571,7 @@ export const Registro: React.FC = () => {
           isLoading={isLoading}
         />
     </PageLayout>
-  );
+        );
+      }
+  )
+}
