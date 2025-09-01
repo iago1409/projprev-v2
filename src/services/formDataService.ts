@@ -1,16 +1,7 @@
 import { FormField, ContratoFormData } from '../types';
 
-// Interface para vínculos incorporados
-interface VinculoIncorporado {
-  id: string;
-  matriculaIncorp: string;
-  codCateg: string;
-  dtInicio: string;
-}
-
 // Simulação de persistência em memória (futuramente será CSV/banco)
 const formDataStorage = new Map<string, FormField[]>();
-const vinculosStorage = new Map<string, VinculoIncorporado[]>();
 
 export class FormDataService {
   static async saveField(cpf: string, tagXml: string, valor: string): Promise<void> {
@@ -125,21 +116,5 @@ export class FormDataService {
 
   static async clearFormData(cpf: string): Promise<void> {
     formDataStorage.delete(cpf);
-  }
-  
-  static async saveVinculosIncorporados(cpf: string, vinculos: VinculoIncorporado[]): Promise<void> {
-    vinculosStorage.set(cpf, vinculos);
-    
-    // Simular delay de persistência
-    await new Promise(resolve => setTimeout(resolve, 100));
-  }
-  
-  static async getVinculosIncorporados(cpf: string): Promise<VinculoIncorporado[]> {
-    const vinculos = vinculosStorage.get(cpf) || [];
-    
-    // Simular delay de consulta
-    await new Promise(resolve => setTimeout(resolve, 50));
-    
-    return vinculos;
   }
 }

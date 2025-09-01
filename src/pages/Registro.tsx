@@ -14,7 +14,6 @@ import { TextInput } from '../components/TextInput';
 import { DateInput } from '../components/DateInput';
 import { RadioGroup } from '../components/RadioGroup';
 import { ConsolidacaoTab } from '../components/ConsolidacaoTab';
-import { VinculosIncorporadosTab } from '../components/VinculosIncorporadosTab';
 import { tipoContratoOptions } from '../data/tipoContratoOptions';
 
 export const Registro: React.FC = () => {
@@ -557,8 +556,6 @@ export const Registro: React.FC = () => {
         )}
         
         {activeTab === 'consolidacao' && <ConsolidacaoTab cpf={cpf} />}
-        
-        {activeTab === 'vinculos-incorporados' && <VinculosIncorporadosTab cpf={cpf} />}
         
         {/* Action Buttons */}
         <ActionButtons
