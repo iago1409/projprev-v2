@@ -27,6 +27,7 @@ function App() {
           <Route path="/processo/multiplos-eventos" element={<MesmoProcessoMultiplosEventos />} />
           <Route path="/processo/informacoes-da-decisao" element={<InformacoesDecisao />} />
           <Route path="/processo/SucessaoVinculo" element={<SucessaoVinculo />} />
+          <Route path="/registrar/sucessao" element={<SucessaoVinculo />} />
         </Routes>
       </div>
     </Router>
