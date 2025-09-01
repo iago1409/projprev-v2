@@ -117,4 +117,26 @@ export class FormDataService {
   static async clearFormData(cpf: string): Promise<void> {
     formDataStorage.delete(cpf);
   }
+
+  // Métodos para vínculos incorporados
+  static async getVinculosIncorporados(cpf: string): Promise<any[]> {
+    const fields = formDataStorage.get(cpf) || [];
+    const vinculosField = fields.find(f => f.tag_xml === 'vinculosIncorporados');
+    
+    if (vinculosField && vinculosField.valor) {
+      try {
+        return JSON.parse(vinculosField.valor);
+      } catch (error) {
+        console.error('Erro ao parsear vínculos:', error);
+        return [];
+      }
+    }
+    
+    return [];
+  }
+
+  static async saveVinculosIncorporados(cpf: string, vinculos: any[]): Promise<void> {
+    const vinculosJson = JSON.stringify(vinculos);
+    await this.saveField(cpf, 'vinculosIncorporados', vinculosJson);
+  }
 }
