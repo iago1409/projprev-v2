@@ -32,6 +32,10 @@ export interface ContratoFormData {
   indCateg?: string;
   indNatAtiv?: string;
   indMotDeslig?: string;
+  // Informações do Desligamento
+  dtDeslig?: string;
+  mtvDeslig?: string;
+  dtProjFimAPI?: string;
   // Mudança de categoria
   codCateg?: string;
   natAtividade?: string;

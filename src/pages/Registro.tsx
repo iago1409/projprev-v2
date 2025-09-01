@@ -15,6 +15,7 @@ import { DateInput } from '../components/DateInput';
 import { RadioGroup } from '../components/RadioGroup';
 import { ConsolidacaoTab } from '../components/ConsolidacaoTab';
 import { tipoContratoOptions } from '../data/tipoContratoOptions';
+import { motivoDesligamentoOptions } from '../data/motivoDesligamentoOptions';
 
 export const Registro: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -28,7 +29,10 @@ export const Registro: React.FC = () => {
     dtInicio: '',
     dtAdmOrig: '',
     indReintegr: '',
-    indContr: 'S' // Default para S
+    indContr: 'S', // Default para S
+    dtDeslig: '',
+    mtvDeslig: '',
+    dtProjFimAPI: ''
   });
   
   const [errors, setErrors] = useState<FormErrors>({});
@@ -59,6 +63,33 @@ export const Registro: React.FC = () => {
   
   // Verificar se dtAdmOrig é obrigatório
   const isDtAdmOrigRequired = ['2', '4'].includes(formData.tpContr);
+  
+  // Função para validar se uma data é igual ou posterior a outra
+  const isDateEqualOrAfter = (dateString1: string, dateString2: string): boolean => {
+    if (!dateString1 || !dateString2) return true;
+    
+    const parseDate = (dateStr: string): Date => {
+      const [day, month, year] = dateStr.split('/').map(Number);
+      return new Date(year, month - 1, day);
+    };
+    
+    const date1 = parseDate(dateString1);
+    const date2 = parseDate(dateString2);
+    
+    return date1 >= date2;
+  };
+  
+  // Função para validar se data não é superior à data atual + 10 dias
+  const isDateWithin10Days = (dateString: string): boolean => {
+    if (!dateString) return true;
+    
+    const [day, month, year] = dateString.split('/').map(Number);
+    const inputDate = new Date(year, month - 1, day);
+    const maxDate = new Date();
+    maxDate.setDate(maxDate.getDate() + 10);
+    
+    return inputDate <= maxDate;
+  };
   
   const handleFieldChange = async (field: keyof ContratoFormData, value: string) => {
     const newFormData = { ...formData, [field]: value };
@@ -121,6 +152,33 @@ export const Registro: React.FC = () => {
       const cboRegex = /^\d{6}$/;
       if (!cboRegex.test(formData.codCBO)) {
         newErrors.codCBO = 'Código CBO deve conter exatamente 6 dígitos numéricos';
+      }
+    }
+    
+    // Validações da seção de desligamento
+    if (formData.dtDeslig) {
+      // Validar se dtDeslig é igual ou posterior à dtAdm
+      if (formData.dtAdm && !isDateEqualOrAfter(formData.dtDeslig, formData.dtAdm)) {
+        newErrors.dtDeslig = 'Data deve ser igual ou posterior à data de admissão';
+      }
+      
+      // Validar se dtDeslig não é superior à data atual + 10 dias
+      if (!isDateWithin10Days(formData.dtDeslig)) {
+        newErrors.dtDeslig = 'Data não pode ser superior à data atual acrescida de 10 dias';
+      }
+    }
+    
+    // Validar motivo de desligamento se data de desligamento estiver preenchida
+    if (formData.dtDeslig && !formData.mtvDeslig) {
+      newErrors.mtvDeslig = 'Campo obrigatório quando data de desligamento é informada';
+    }
+    
+    // Validar dtProjFimAPI se informada
+    if (formData.dtProjFimAPI) {
+      if (!formData.dtDeslig) {
+        newErrors.dtProjFimAPI = 'Data de desligamento deve ser informada primeiro';
+      } else if (!isDateEqualOrAfter(formData.dtProjFimAPI, formData.dtDeslig)) {
+        newErrors.dtProjFimAPI = 'Data deve ser igual ou posterior à data de desligamento';
       }
     }
     
@@ -416,6 +474,60 @@ export const Registro: React.FC = () => {
               </div>
             </div>
           </div>
+          
+          {/* Seção de Informações do Desligamento */}
+          <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+            <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
+              Informações do Desligamento
+            </h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Data de desligamento */}
+              <DateInput
+                value={formData.dtDeslig || ''}
+                onChange={(value) => handleFieldChange('dtDeslig', value)}
+                label="Data de desligamento do vínculo"
+                error={errors.dtDeslig}
+                tooltip="Data de desligamento do vínculo. Deve ser igual ou posterior à data de admissão e não superior à data atual acrescida de 10 dias corridos."
+              />
+              
+              {/* Motivo do desligamento */}
+              <SelectInput
+                value={formData.mtvDeslig || ''}
+                onChange={(value) => handleFieldChange('mtvDeslig', value)}
+                options={motivoDesligamentoOptions}
+                label="Motivo do desligamento"
+                placeholder="Selecione o motivo"
+                error={errors.mtvDeslig}
+                required={!!formData.dtDeslig}
+              />
+              
+              {/* Data projetada para término do aviso prévio indenizado */}
+              <div className="md:col-span-2">
+                <DateInput
+                  value={formData.dtProjFimAPI || ''}
+                  onChange={(value) => handleFieldChange('dtProjFimAPI', value)}
+                  label="Data projetada para término do aviso prévio indenizado"
+                  error={errors.dtProjFimAPI}
+                  tooltip="Data projetada para término do aviso prévio indenizado. Se informada, deve ser igual ou posterior à data de desligamento."
+                />
+              </div>
+            </div>
+            
+            {/* Nota informativa */}
+            <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+              <p className="text-sm text-blue-800">
+                <strong>Informações importantes:</strong>
+              </p>
+              <ul className="mt-2 text-xs text-blue-700 list-disc list-inside space-y-1">
+                <li>A data de desligamento deve ser igual ou posterior à data de admissão</li>
+                <li>A data de desligamento não pode ser superior à data atual acrescida de 10 dias corridos</li>
+                <li>O motivo do desligamento é obrigatório quando a data de desligamento é informada</li>
+                <li>A data projetada do aviso prévio é opcional e deve ser posterior à data de desligamento</li>
+              </ul>
+            </div>
+          </div>
+          
           {/* Seção de Informações Complementares do Contrato */}
           <div className="md:col-span-2 mt-8 pt-8 border-t border-gray-200">
             <h3 className="text-lg font-medium text-gray-900 mb-6">Informações Complementares do Contrato</h3>
