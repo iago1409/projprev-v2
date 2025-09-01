@@ -5,7 +5,11 @@ import { PageLayout } from '../components/layout/PageLayout';
 import { PageHeader } from '../components/layout/PageHeader';
 import { ActionButtons } from '../components/ui/ActionButtons';
 import { SubTabs } from '../components/navigation/SubTabs';
+import { SelectInput } from '../components/SelectInput';
+import { TextInput } from '../components/TextInput';
+import { DateInput } from '../components/DateInput';
 import { formatCPF } from '../utils/cpfUtils';
+import { FormDataService } from '../services/formDataService';
 
 /**
  * SUCESSÃO DE VÍNCULO PAGE - Informações de Sucessão de Vínculo
@@ -37,13 +41,19 @@ import { formatCPF } from '../utils/cpfUtils';
  */
 
 // Interface para os dados do formulário
-interface FormData {
-  // Campos serão adicionados conforme especificação
+interface SucessaoVinculoData {
+  sucessaoTpInsc: string;
+  sucessaoNrInsc: string;
+  sucessaoMatricAnt: string;
+  sucessaoDtTransf: string;
 }
 
 // Interface para erros de validação
 interface FormErrors {
-  // Erros serão adicionados conforme campos
+  sucessaoTpInsc?: string;
+  sucessaoNrInsc?: string;
+  sucessaoMatricAnt?: string;
+  sucessaoDtTransf?: string;
 }
 
 export const SucessaoVinculo: React.FC = () => {
@@ -53,8 +63,11 @@ export const SucessaoVinculo: React.FC = () => {
   const activeTab = 'sucessao';
   
   // Estado do formulário
-  const [formData, setFormData] = useState<FormData>({
-    // Campos serão inicializados conforme especificação
+  const [formData, setFormData] = useState<SucessaoVinculoData>({
+    sucessaoTpInsc: '',
+    sucessaoNrInsc: '',
+    sucessaoMatricAnt: '',
+    sucessaoDtTransf: ''
   });
   
   // Estado de erros
@@ -62,6 +75,36 @@ export const SucessaoVinculo: React.FC = () => {
   
   // Estado de loading
   const [isLoading, setIsLoading] = useState(false);
+  
+  // Opções para tipo de inscrição
+  const tipoInscricaoOptions = [
+    { value: '', label: 'Selecione o tipo de inscrição', description: 'Selecione uma das opções disponíveis' },
+    { value: '1', label: '1 - CNPJ', description: 'Cadastro Nacional da Pessoa Jurídica' },
+    { value: '2', label: '2 - CPF', description: 'Cadastro de Pessoas Físicas' },
+    { value: '5', label: '5 - CGC', description: 'Cadastro Geral de Contribuintes' },
+    { value: '6', label: '6 - CEI', description: 'Cadastro Específico do INSS' }
+  ];
+  
+  // Carregar dados salvos ao montar o componente
+  useEffect(() => {
+    const loadFormData = async () => {
+      if (cpf) {
+        try {
+          const savedData = await FormDataService.getFormData(cpf);
+          setFormData({
+            sucessaoTpInsc: savedData.sucessaoTpInsc || '',
+            sucessaoNrInsc: savedData.sucessaoNrInsc || '',
+            sucessaoMatricAnt: savedData.sucessaoMatricAnt || '',
+            sucessaoDtTransf: savedData.sucessaoDtTransf || ''
+          });
+        } catch (error) {
+          console.error('Erro ao carregar dados:', error);
+        }
+      }
+    };
+    
+    loadFormData();
+  }, [cpf]);
   
   // Configuração do breadcrumb
   const breadcrumbItems = [
@@ -79,12 +122,21 @@ export const SucessaoVinculo: React.FC = () => {
   ];
   
   // Função para atualizar campos do formulário
-  const handleFieldChange = (field: keyof FormData, value: string) => {
+  const handleFieldChange = async (field: keyof SucessaoVinculoData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     
     // Limpar erro do campo quando começar a digitar
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: undefined }));
+    }
+    
+    // Salvar automaticamente
+    if (cpf && value.trim() !== '') {
+      try {
+        await FormDataService.saveField(cpf, field, value);
+      } catch (error) {
+        console.error('Erro ao salvar campo:', error);
+      }
     }
   };
   
@@ -92,7 +144,8 @@ export const SucessaoVinculo: React.FC = () => {
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
     
-    // Validações serão implementadas conforme campos
+    // Por enquanto, sem validações específicas
+    // Validações podem ser adicionadas conforme necessário
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -104,10 +157,11 @@ export const SucessaoVinculo: React.FC = () => {
   };
   
   const handleSaveDraft = async () => {
+    if (!cpf) return;
+    
     setIsLoading(true);
     try {
-      // Lógica de salvar rascunho será implementada
-      console.log('Salvando rascunho:', formData);
+      await FormDataService.saveFormData(cpf, formData);
       alert('Rascunho salvo com sucesso!');
     } catch (error) {
       console.error('Erro ao salvar rascunho:', error);
@@ -126,10 +180,11 @@ export const SucessaoVinculo: React.FC = () => {
       return;
     }
     
+    if (!cpf) return;
+    
     setIsLoading(true);
     try {
-      // Lógica de salvar e navegar será implementada
-      console.log('Salvando dados:', formData);
+      await FormDataService.saveFormData(cpf, formData);
       navigate(`/registrar?cpf=${cpf}&tab=consolidacao`);
     } catch (error) {
       console.error('Erro ao salvar dados:', error);
@@ -157,18 +212,43 @@ export const SucessaoVinculo: React.FC = () => {
           Dados de Sucessão de Vínculo
         </h2>
         
-        <div className="bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
-            Campos em Desenvolvimento
-          </h3>
-          <p className="text-gray-600">
-            Os campos específicos para sucessão de vínculo serão adicionados conforme especificação.
-          </p>
-          {cpf && (
-            <p className="text-sm text-gray-500 mt-2">
-              CPF: {formatCPF(cpf)}
-            </p>
-          )}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Tipo de inscrição do empregador anterior */}
+          <SelectInput
+            value={formData.sucessaoTpInsc}
+            onChange={(value) => handleFieldChange('sucessaoTpInsc', value)}
+            options={tipoInscricaoOptions}
+            label="Tipo de inscrição do empregador anterior"
+            placeholder="Selecione o tipo de inscrição"
+            error={errors.sucessaoTpInsc}
+          />
+          
+          {/* Número de inscrição do empregador anterior */}
+          <TextInput
+            value={formData.sucessaoNrInsc}
+            onChange={(value) => handleFieldChange('sucessaoNrInsc', value)}
+            label="Número de inscrição do empregador anterior"
+            placeholder="Digite o número de inscrição"
+            error={errors.sucessaoNrInsc}
+          />
+          
+          {/* Matrícula no empregador anterior */}
+          <TextInput
+            value={formData.sucessaoMatricAnt}
+            onChange={(value) => handleFieldChange('sucessaoMatricAnt', value)}
+            label="Matrícula no empregador anterior"
+            placeholder="Digite a matrícula anterior"
+            error={errors.sucessaoMatricAnt}
+          />
+          
+          {/* Data da transferência para o empregador atual */}
+          <DateInput
+            value={formData.sucessaoDtTransf}
+            onChange={(value) => handleFieldChange('sucessaoDtTransf', value)}
+            label="Data da transferência para o empregador atual"
+            placeholder="DD/MM/AAAA"
+            error={errors.sucessaoDtTransf}
+          />
         </div>
       </div>
       
