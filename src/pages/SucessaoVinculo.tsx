@@ -312,7 +312,6 @@ export const SucessaoVinculo: React.FC = () => {
           </div>
         )}
         </div>
-      </div>
       
       {/* Botões de Ação */}
       <ActionButtons
