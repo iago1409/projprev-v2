@@ -366,6 +366,7 @@ export const Registro: React.FC = () => {
               </div>
 
             </div>
+          </div>
           </>
         )}
         
