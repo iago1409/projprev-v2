@@ -8,6 +8,9 @@ import { SubTabs } from '../components/navigation/SubTabs';
 import { SelectInput } from '../components/SelectInput';
 import { TextInput } from '../components/TextInput';
 import { DateInput } from '../components/DateInput';
+import { SelectInput } from '../components/SelectInput';
+import { TextInput } from '../components/TextInput';
+import { DateInput } from '../components/DateInput';
 import { formatCPF } from '../utils/cpfUtils';
 import { FormDataService } from '../services/formDataService';
 
@@ -54,6 +57,15 @@ export const SucessaoVinculo: React.FC = () => {
   
   // Estado de loading
   const [isLoading, setIsLoading] = useState(false);
+  
+  // Opções para tipo de inscrição
+  const tipoInscricaoOptions = [
+    { value: '', label: 'Selecione o tipo de inscrição', description: 'Selecione uma das opções disponíveis' },
+    { value: '1', label: '1 - CNPJ', description: 'Cadastro Nacional da Pessoa Jurídica' },
+    { value: '2', label: '2 - CPF', description: 'Cadastro de Pessoas Físicas' },
+    { value: '5', label: '5 - CGC', description: 'Cadastro Geral de Contribuintes' },
+    { value: '6', label: '6 - CEI', description: 'Cadastro Específico do INSS' }
+  ];
   
   // Opções para tipo de inscrição
   const tipoInscricaoOptions = [
@@ -257,6 +269,42 @@ export const SucessaoVinculo: React.FC = () => {
         {/* Campos condicionais */}
         {formData.sucessaoPreencher && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Tipo de Inscrição */}
+            <SelectInput
+              value={formData.sucessaoTpInsc}
+              onChange={(value) => handleFieldChange('sucessaoTpInsc', value)}
+              options={tipoInscricaoOptions}
+              label="Tipo de inscrição do empregador anterior"
+              placeholder="Selecione o tipo de inscrição"
+              error={errors.sucessaoTpInsc}
+            />
+            
+            {/* Número de Inscrição */}
+            <TextInput
+              value={formData.sucessaoNrInsc}
+              onChange={(value) => handleFieldChange('sucessaoNrInsc', value)}
+              label="Número de inscrição do empregador anterior"
+              placeholder="Digite o número de inscrição"
+              error={errors.sucessaoNrInsc}
+            />
+            
+            {/* Matrícula Anterior */}
+            <TextInput
+              value={formData.sucessaoMatricAnt}
+              onChange={(value) => handleFieldChange('sucessaoMatricAnt', value)}
+              label="Matrícula no empregador anterior"
+              placeholder="Digite a matrícula anterior"
+              error={errors.sucessaoMatricAnt}
+            />
+            
+            {/* Data da Transferência */}
+            <DateInput
+              value={formData.sucessaoDtTransf}
+              onChange={(value) => handleFieldChange('sucessaoDtTransf', value)}
+              label="Data da transferência para o empregador atual"
+              placeholder="DD/MM/AAAA"
+              error={errors.sucessaoDtTransf}
+            />
             {/* Tipo de Inscrição */}
             <SelectInput
               value={formData.sucessaoTpInsc}
