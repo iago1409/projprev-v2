@@ -9,6 +9,7 @@ import InformacoesDecisao from './pages/InformacoesDecisao';
 import InformacoesProcesso from './pages/InformacoesProcesso';
 import InformacoesTrabalhador from './pages/InformacoesTrabalhador';
 import MesmoProcessoMultiplosEventos from './pages/MesmoProcessoMultiplosEventos';
+import { Vinculo } from './pages/vinculo';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/processo/informacoes-do-trabalhador" element={<InformacoesTrabalhador />} />
           <Route path="/processo/multiplos-eventos" element={<MesmoProcessoMultiplosEventos />} />
           <Route path="/processo/informacoes-da-decisao" element={<InformacoesDecisao />} />
+          <Route path="/processo/vinculo" element={<Vinculo />} />
         </Routes>
       </div>
     </Router>
