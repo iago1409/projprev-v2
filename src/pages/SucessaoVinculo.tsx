@@ -69,7 +69,7 @@ interface FormErrors {
   campo4?: string;
 }
 
-export const TemplatePage: React.FC = () => {
+export const SucessaoVinculo: React.FC = () => {
   const navigate = useNavigate();
   
   // Estado do formulário (CUSTOMIZE CONFORME NECESSÁRIO)
