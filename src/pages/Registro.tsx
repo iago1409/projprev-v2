@@ -187,6 +187,7 @@ export const Registro: React.FC = () => {
       }
     }
     
+    // Validações da aba de vínculo trabalhista
     // Validações dos indicadores (campos obrigatórios)
     if (!formData.indCateg) {
       newErrors.indCateg = 'Campo obrigatório';
@@ -350,7 +351,65 @@ export const Registro: React.FC = () => {
                   ]}
                   name="indReintegr"
                   label="O trabalhador foi reintegrado?"
+                          {/* Aba de Vínculo Trabalhista */}
+        {activeTab === 'vinculo' && (
+          <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+            <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
+              Informações de Vínculo Trabalhista
+            </h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Tipo de Regime Trabalhista */}
+              <div className="md:col-span-2">
+                <SelectInput
+                  value={formData.tpRegTrab || ''}
+                  onChange={(value) => handleFieldChange('tpRegTrab', value)}
+                  options={tipoRegimeTrabOptions}
+                  label="Tipo de regime trabalhista"
+                  placeholder="Selecione o tipo de regime trabalhista"
                   required
+                  error={errors.tpRegTrab}
+                />
+              </div>
+              
+              {/* Tipo de Regime Previdenciário */}
+              <div className="md:col-span-2">
+                <SelectInput
+                  value={formData.tpRegPrev || ''}
+                  onChange={(value) => handleFieldChange('tpRegPrev', value)}
+                  options={tipoRegimePrevOptions}
+                  label="Tipo de regime previdenciário"
+                  placeholder="Selecione o tipo de regime previdenciário"
+                  required
+                  error={errors.tpRegPrev}
+                />
+              </div>
+              
+              {/* Data de Admissão */}
+              <DateInput
+                value={formData.dtAdm || ''}
+                onChange={(value) => handleFieldChange('dtAdm', value)}
+                label="Data de admissão"
+                required
+                error={errors.dtAdm}
+                tooltip="Data de admissão do trabalhador. Deve ser posterior à data de nascimento."
+              />
+              
+              {/* Código relativo ao tipo de contrato em tempo parcial */}
+              <SelectInput
+                value={formData.tpRegTrabParc || ''}
+                onChange={(value) => handleFieldChange('tpRegTrabParc', value)}
+                options={tipoContratoParcialOptions}
+                label="Código relativo ao tipo de contrato em tempo parcial"
+                placeholder="Selecione o tipo de contrato"
+                error={errors.tpRegTrabParc}
+              />
+            </div>
+          </div>
+        )}
+        
+        <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+          <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">required
                   error={errors.indReintegr}
                 />
               </div>
@@ -359,6 +418,8 @@ export const Registro: React.FC = () => {
           </div>
           </>
         )}
+              {/* Seção de Indicadores do Processo */}
+        {/* Aba de Vínculo Trabalhista */}
         <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
           <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
             Indicadores do Processo
@@ -552,67 +613,6 @@ export const Registro: React.FC = () => {
         </div>
         
         {activeTab === 'consolidacao' && <ConsolidacaoTab cpf={cpf} />}
-
-
-              {/* Aba de Vínculo Trabalhista */}
-        {activeTab === 'vinculo' && (
-          <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
-            <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
-              Informações de Vínculo Trabalhista
-            </h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Tipo de Regime Trabalhista */}
-              <div className="md:col-span-2">
-                <SelectInput
-                  value={formData.tpRegTrab || ''}
-                  onChange={(value) => handleFieldChange('tpRegTrab', value)}
-                  options={tipoRegimeTrabOptions}
-                  label="Tipo de regime trabalhista"
-                  placeholder="Selecione o tipo de regime trabalhista"
-                  required
-                  error={errors.tpRegTrab}
-                />
-              </div>
-              
-              {/* Tipo de Regime Previdenciário */}
-              <div className="md:col-span-2">
-                <SelectInput
-                  value={formData.tpRegPrev || ''}
-                  onChange={(value) => handleFieldChange('tpRegPrev', value)}
-                  options={tipoRegimePrevOptions}
-                  label="Tipo de regime previdenciário"
-                  placeholder="Selecione o tipo de regime previdenciário"
-                  required
-                  error={errors.tpRegPrev}
-                />
-              </div>
-              
-              {/* Data de Admissão */}
-              <DateInput
-                value={formData.dtAdm || ''}
-                onChange={(value) => handleFieldChange('dtAdm', value)}
-                label="Data de admissão"
-                required
-                error={errors.dtAdm}
-                tooltip="Data de admissão do trabalhador. Deve ser posterior à data de nascimento."
-              />
-              
-              {/* Código relativo ao tipo de contrato em tempo parcial */}
-              <SelectInput
-                value={formData.tpRegTrabParc || ''}
-                onChange={(value) => handleFieldChange('tpRegTrabParc', value)}
-                options={tipoContratoParcialOptions}
-                label="Código relativo ao tipo de contrato em tempo parcial"
-                placeholder="Selecione o tipo de contrato"
-                error={errors.tpRegTrabParc}
-              />
-            </div>
-          </div>
-        )}
-        
-        <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
-          <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
         
         {/* Action Buttons */}
         <ActionButtons
