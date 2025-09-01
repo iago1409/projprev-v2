@@ -535,3 +535,7 @@ export const Registro: React.FC = () => {
     </PageLayout>
   );
 };
+      )
+      }
+  )
+}
