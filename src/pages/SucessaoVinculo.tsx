@@ -8,9 +8,6 @@ import { SubTabs } from '../components/navigation/SubTabs';
 import { SelectInput } from '../components/SelectInput';
 import { TextInput } from '../components/TextInput';
 import { DateInput } from '../components/DateInput';
-import { SelectInput } from '../components/SelectInput';
-import { TextInput } from '../components/TextInput';
-import { DateInput } from '../components/DateInput';
 import { formatCPF } from '../utils/cpfUtils';
 import { FormDataService } from '../services/formDataService';
 
