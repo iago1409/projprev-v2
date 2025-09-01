@@ -553,6 +553,8 @@ export const Registro: React.FC = () => {
         </div>
         
         {activeTab === 'consolidacao' && <ConsolidacaoTab cpf={cpf} />}
+      1
+Informações do Contrato
         
         {/* Action Buttons */}
         <ActionButtons
