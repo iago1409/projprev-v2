@@ -365,113 +365,7 @@ export const Registro: React.FC = () => {
                 />
               </div>
               
-              {/* Seção de Informações do Desligamento */}
-              <div className="md:col-span-2 mt-8 pt-8 border-t border-gray-200">
-                <h3 className="text-lg font-medium text-gray-900 mb-6">Informações do Desligamento</h3>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Data de desligamento */}
-                  <DateInput
-                    value={formData.dtDeslig || ''}
-                    onChange={(value) => handleFieldChange('dtDeslig', value)}
-                    label="Data de desligamento do vínculo"
-                    required
-                    error={errors.dtDeslig}
-                    tooltip="Data de desligamento do vínculo. Deve ser igual ou posterior à data de admissão e não superior à data atual acrescida de 10 dias corridos."
-                  />
-                  
-                  {/* Motivo do desligamento */}
-                  <SelectInput
-                    value={formData.mtvDeslig || ''}
-                    onChange={(value) => handleFieldChange('mtvDeslig', value)}
-                    options={motivoDesligamentoOptions}
-                    label="Motivo do desligamento"
-                    placeholder="Selecione o motivo"
-                    required
-                    error={errors.mtvDeslig}
-                  />
-                  
-                  {/* Data projetada para término do aviso prévio indenizado */}
-                  <div className="md:col-span-2">
-                    <DateInput
-                      value={formData.dtProjFimAPI || ''}
-                      onChange={(value) => handleFieldChange('dtProjFimAPI', value)}
-                      label="Data projetada para término do aviso prévio indenizado"
-                      error={errors.dtProjFimAPI}
-                      tooltip="Data projetada para término do aviso prévio indenizado. Se informada, deve ser igual ou posterior à data de desligamento."
-                    />
-                  </div>
-                </div>
-                
-                {/* Nota informativa */}
-                <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-                  <p className="text-sm text-blue-800">
-                    <strong>Informações importantes:</strong>
-                  </p>
-                  <ul className="mt-2 text-xs text-blue-700 list-disc list-inside space-y-1">
-                    <li>A data de desligamento deve ser igual ou posterior à data de admissão</li>
-                    <li>A data de desligamento não pode ser superior à data atual acrescida de 10 dias corridos</li>
-                    <li>O motivo do desligamento é obrigatório</li>
-                    <li>A data projetada do aviso prévio é opcional e deve ser posterior à data de desligamento</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          {/* Seção de Informações do Desligamento */}
-          <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
-            <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
-              Informações do Desligamento
-            </h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Data de desligamento */}
-              <DateInput
-                value={formData.dtDeslig || ''}
-                onChange={(value) => handleFieldChange('dtDeslig', value)}
-                label="Data de desligamento do vínculo"
-                required
-                error={errors.dtDeslig}
-                tooltip="Data de desligamento do vínculo. Deve ser igual ou posterior à data de admissão e não superior à data atual acrescida de 10 dias corridos."
-              />
-              
-              {/* Motivo do desligamento */}
-              <SelectInput
-                value={formData.mtvDeslig || ''}
-                onChange={(value) => handleFieldChange('mtvDeslig', value)}
-                options={motivoDesligamentoOptions}
-                label="Motivo do desligamento"
-                placeholder="Selecione o motivo"
-                required
-                error={errors.mtvDeslig}
-              />
-              
-              {/* Data projetada para término do aviso prévio indenizado */}
-              <div className="md:col-span-2">
-                <DateInput
-                  value={formData.dtProjFimAPI || ''}
-                  onChange={(value) => handleFieldChange('dtProjFimAPI', value)}
-                  label="Data projetada para término do aviso prévio indenizado"
-                  error={errors.dtProjFimAPI}
-                  tooltip="Data projetada para término do aviso prévio indenizado. Se informada, deve ser igual ou posterior à data de desligamento."
-                />
-              </div>
-            </div>
-            
-            {/* Nota informativa */}
-            <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-              <p className="text-sm text-blue-800">
-                <strong>Informações importantes:</strong>
-              </p>
-              <ul className="mt-2 text-xs text-blue-700 list-disc list-inside space-y-1">
-                <li>A data de desligamento deve ser igual ou posterior à data de admissão</li>
-                <li>A data de desligamento não pode ser superior à data atual acrescida de 10 dias corridos</li>
-                <li>O motivo do desligamento é obrigatório</li>
-                <li>A data projetada do aviso prévio é opcional e deve ser posterior à data de desligamento</li>
-              </ul>
-            </div>
-          </div>
+
           
           {/* Seção de Indicadores do Processo */}
           <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
@@ -626,6 +520,113 @@ export const Registro: React.FC = () => {
             </div>
           </div>
           </>
+                          {/* Seção de Informações do Desligamento */}
+              <div className="md:col-span-2 mt-8 pt-8 border-t border-gray-200">
+                <h3 className="text-lg font-medium text-gray-900 mb-6">Informações do Desligamento</h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Data de desligamento */}
+                  <DateInput
+                    value={formData.dtDeslig || ''}
+                    onChange={(value) => handleFieldChange('dtDeslig', value)}
+                    label="Data de desligamento do vínculo"
+                    required
+                    error={errors.dtDeslig}
+                    tooltip="Data de desligamento do vínculo. Deve ser igual ou posterior à data de admissão e não superior à data atual acrescida de 10 dias corridos."
+                  />
+                  
+                  {/* Motivo do desligamento */}
+                  <SelectInput
+                    value={formData.mtvDeslig || ''}
+                    onChange={(value) => handleFieldChange('mtvDeslig', value)}
+                    options={motivoDesligamentoOptions}
+                    label="Motivo do desligamento"
+                    placeholder="Selecione o motivo"
+                    required
+                    error={errors.mtvDeslig}
+                  />
+                  
+                  {/* Data projetada para término do aviso prévio indenizado */}
+                  <div className="md:col-span-2">
+                    <DateInput
+                      value={formData.dtProjFimAPI || ''}
+                      onChange={(value) => handleFieldChange('dtProjFimAPI', value)}
+                      label="Data projetada para término do aviso prévio indenizado"
+                      error={errors.dtProjFimAPI}
+                      tooltip="Data projetada para término do aviso prévio indenizado. Se informada, deve ser igual ou posterior à data de desligamento."
+                    />
+                  </div>
+                </div>
+                
+                {/* Nota informativa */}
+                <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+                  <p className="text-sm text-blue-800">
+                    <strong>Informações importantes:</strong>
+                  </p>
+                  <ul className="mt-2 text-xs text-blue-700 list-disc list-inside space-y-1">
+                    <li>A data de desligamento deve ser igual ou posterior à data de admissão</li>
+                    <li>A data de desligamento não pode ser superior à data atual acrescida de 10 dias corridos</li>
+                    <li>O motivo do desligamento é obrigatório</li>
+                    <li>A data projetada do aviso prévio é opcional e deve ser posterior à data de desligamento</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Seção de Informações do Desligamento */}
+          <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+            <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
+              Informações do Desligamento
+            </h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Data de desligamento */}
+              <DateInput
+                value={formData.dtDeslig || ''}
+                onChange={(value) => handleFieldChange('dtDeslig', value)}
+                label="Data de desligamento do vínculo"
+                required
+                error={errors.dtDeslig}
+                tooltip="Data de desligamento do vínculo. Deve ser igual ou posterior à data de admissão e não superior à data atual acrescida de 10 dias corridos."
+              />
+              
+              {/* Motivo do desligamento */}
+              <SelectInput
+                value={formData.mtvDeslig || ''}
+                onChange={(value) => handleFieldChange('mtvDeslig', value)}
+                options={motivoDesligamentoOptions}
+                label="Motivo do desligamento"
+                placeholder="Selecione o motivo"
+                required
+                error={errors.mtvDeslig}
+              />
+              
+              {/* Data projetada para término do aviso prévio indenizado */}
+              <div className="md:col-span-2">
+                <DateInput
+                  value={formData.dtProjFimAPI || ''}
+                  onChange={(value) => handleFieldChange('dtProjFimAPI', value)}
+                  label="Data projetada para término do aviso prévio indenizado"
+                  error={errors.dtProjFimAPI}
+                  tooltip="Data projetada para término do aviso prévio indenizado. Se informada, deve ser igual ou posterior à data de desligamento."
+                />
+              </div>
+            </div>
+            
+            {/* Nota informativa */}
+            <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+              <p className="text-sm text-blue-800">
+                <strong>Informações importantes:</strong>
+              </p>
+              <ul className="mt-2 text-xs text-blue-700 list-disc list-inside space-y-1">
+                <li>A data de desligamento deve ser igual ou posterior à data de admissão</li>
+                <li>A data de desligamento não pode ser superior à data atual acrescida de 10 dias corridos</li>
+                <li>O motivo do desligamento é obrigatório</li>
+                <li>A data projetada do aviso prévio é opcional e deve ser posterior à data de desligamento</li>
+              </ul>
+            </div>
+          </div>
         )}
         
         {activeTab === 'consolidacao' && <ConsolidacaoTab cpf={cpf} />}
