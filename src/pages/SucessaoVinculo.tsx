@@ -42,18 +42,18 @@ import { FormDataService } from '../services/formDataService';
 
 // Interface para os dados do formulário
 interface SucessaoVinculoData {
-  sucessaoTpInsc: string;
-  sucessaoNrInsc: string;
-  sucessaoMatricAnt: string;
-  sucessaoDtTransf: string;
+  tpInsc: string;
+  nrInsc: string;
+  matricAnt: string;
+  dtTransf: string;
 }
 
 // Interface para erros de validação
 interface FormErrors {
-  sucessaoTpInsc?: string;
-  sucessaoNrInsc?: string;
-  sucessaoMatricAnt?: string;
-  sucessaoDtTransf?: string;
+  tpInsc?: string;
+  nrInsc?: string;
+  matricAnt?: string;
+  dtTransf?: string;
 }
 
 export const SucessaoVinculo: React.FC = () => {
@@ -64,10 +64,10 @@ export const SucessaoVinculo: React.FC = () => {
   
   // Estado do formulário
   const [formData, setFormData] = useState<SucessaoVinculoData>({
-    sucessaoTpInsc: '',
-    sucessaoNrInsc: '',
-    sucessaoMatricAnt: '',
-    sucessaoDtTransf: ''
+    tpInsc: '',
+    nrInsc: '',
+    matricAnt: '',
+    dtTransf: ''
   });
   
   // Estado de erros
@@ -92,10 +92,10 @@ export const SucessaoVinculo: React.FC = () => {
         try {
           const savedData = await FormDataService.getFormData(cpf);
           setFormData({
-            sucessaoTpInsc: savedData.sucessaoTpInsc || '',
-            sucessaoNrInsc: savedData.sucessaoNrInsc || '',
-            sucessaoMatricAnt: savedData.sucessaoMatricAnt || '',
-            sucessaoDtTransf: savedData.sucessaoDtTransf || ''
+            tpInsc: savedData.tpInsc || '',
+            nrInsc: savedData.nrInsc || '',
+            matricAnt: savedData.matricAnt || '',
+            dtTransf: savedData.dtTransf || ''
           });
         } catch (error) {
           console.error('Erro ao carregar dados:', error);
@@ -144,8 +144,29 @@ export const SucessaoVinculo: React.FC = () => {
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
     
-    // Por enquanto, sem validações específicas
-    // Validações podem ser adicionadas conforme necessário
+    // Validar tipo de inscrição (obrigatório)
+    if (!formData.tpInsc) {
+      newErrors.tpInsc = 'Campo obrigatório';
+    } else if (!['1', '2', '5', '6'].includes(formData.tpInsc)) {
+      newErrors.tpInsc = 'Valor inválido';
+    }
+    
+    // Validar número de inscrição (obrigatório)
+    if (!formData.nrInsc) {
+      newErrors.nrInsc = 'Campo obrigatório';
+    } else if (formData.nrInsc.length < 8 || formData.nrInsc.length > 14) {
+      newErrors.nrInsc = 'Deve ter entre 8 e 14 caracteres';
+    }
+    
+    // Validar matrícula anterior (opcional, mas se preenchida deve ter 1-30 caracteres)
+    if (formData.matricAnt && (formData.matricAnt.length < 1 || formData.matricAnt.length > 30)) {
+      newErrors.matricAnt = 'Deve ter entre 1 e 30 caracteres';
+    }
+    
+    // Validar data de transferência (obrigatório)
+    if (!formData.dtTransf) {
+      newErrors.dtTransf = 'Campo obrigatório';
+    }
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -215,39 +236,47 @@ export const SucessaoVinculo: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Tipo de inscrição do empregador anterior */}
           <SelectInput
-            value={formData.sucessaoTpInsc}
-            onChange={(value) => handleFieldChange('sucessaoTpInsc', value)}
+            value={formData.tpInsc}
+            onChange={(value) => handleFieldChange('tpInsc', value)}
             options={tipoInscricaoOptions}
             label="Tipo de inscrição do empregador anterior"
             placeholder="Selecione o tipo de inscrição"
-            error={errors.sucessaoTpInsc}
+            required
+            error={errors.tpInsc}
           />
           
           {/* Número de inscrição do empregador anterior */}
           <TextInput
-            value={formData.sucessaoNrInsc}
-            onChange={(value) => handleFieldChange('sucessaoNrInsc', value)}
+            value={formData.nrInsc}
+            onChange={(value) => handleFieldChange('nrInsc', value)}
             label="Número de inscrição do empregador anterior"
             placeholder="Digite o número de inscrição"
-            error={errors.sucessaoNrInsc}
+            required
+            error={errors.nrInsc}
+            maxLength={14}
+            tooltip="Informar o número de inscrição do empregador anterior, de acordo com o tipo de inscrição indicado"
           />
           
           {/* Matrícula no empregador anterior */}
           <TextInput
-            value={formData.sucessaoMatricAnt}
-            onChange={(value) => handleFieldChange('sucessaoMatricAnt', value)}
+            value={formData.matricAnt}
+            onChange={(value) => handleFieldChange('matricAnt', value)}
             label="Matrícula no empregador anterior"
             placeholder="Digite a matrícula anterior"
-            error={errors.sucessaoMatricAnt}
+            error={errors.matricAnt}
+            maxLength={30}
+            tooltip="Matrícula do trabalhador no empregador anterior (opcional)"
           />
           
           {/* Data da transferência para o empregador atual */}
           <DateInput
-            value={formData.sucessaoDtTransf}
-            onChange={(value) => handleFieldChange('sucessaoDtTransf', value)}
+            value={formData.dtTransf}
+            onChange={(value) => handleFieldChange('dtTransf', value)}
             label="Data da transferência para o empregador atual"
             placeholder="DD/MM/AAAA"
-            error={errors.sucessaoDtTransf}
+            required
+            error={errors.dtTransf}
+            tooltip="Preencher com a data da transferência do empregado para o empregador declarante"
           />
         </div>
       </div>
