@@ -82,7 +82,10 @@ export const TerminoTSVE: React.FC = () => {
     },
     {
       label: 'Registro de Processo',
-      onClick: () => navigate(`/registrar?cpf=${cpf}&tab=contrato`)
+      onClick: () => navigate(`/registrar?cpf=${cpf}`)
+    },
+    {
+      label: 'Informações de término de TSVE'
     }
   ];
   

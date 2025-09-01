@@ -88,7 +88,10 @@ export const SucessaoVinculo: React.FC = () => {
     },
     {
       label: 'Registro de Processo',
-      onClick: () => navigate(`/registrar?cpf=${cpf}&tab=contrato`)
+      onClick: () => navigate(`/registrar?cpf=${cpf}`)
+    },
+    {
+      label: 'Sucessão de Vínculo'
     }
   ];
   
