@@ -188,6 +188,20 @@ export const Registro: React.FC = () => {
     }
     
     // Validações da aba de vínculo trabalhista
+    if (activeTab === 'vinculo') {
+      if (!formData.tpRegTrab) {
+        newErrors.tpRegTrab = 'Campo obrigatório';
+      }
+      
+      if (!formData.tpRegPrev) {
+        newErrors.tpRegPrev = 'Campo obrigatório';
+      }
+      
+      if (!formData.dtAdm) {
+        newErrors.dtAdm = 'Campo obrigatório';
+      }
+    }
+    
     // Validações dos indicadores (campos obrigatórios)
     if (!formData.indCateg) {
       newErrors.indCateg = 'Campo obrigatório';
@@ -351,7 +365,17 @@ export const Registro: React.FC = () => {
                   ]}
                   name="indReintegr"
                   label="O trabalhador foi reintegrado?"
-                          {/* Aba de Vínculo Trabalhista */}
+                  required
+                  error={errors.indReintegr}
+                />
+              </div>
+
+            </div>
+          </div>
+          </>
+        )}
+              {/* Seção de Indicadores do Processo */}
+        {/* Aba de Vínculo Trabalhista */}
         {activeTab === 'vinculo' && (
           <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
             <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
@@ -408,18 +432,6 @@ export const Registro: React.FC = () => {
           </div>
         )}
         
-        <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
-          <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">required
-                  error={errors.indReintegr}
-                />
-              </div>
-
-            </div>
-          </div>
-          </>
-        )}
-              {/* Seção de Indicadores do Processo */}
-        {/* Aba de Vínculo Trabalhista */}
         <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
           <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
             Indicadores do Processo
