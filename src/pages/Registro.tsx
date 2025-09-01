@@ -369,47 +369,7 @@ export const Registro: React.FC = () => {
           </div>
           </>
         )}
-        
-        {/* Seção de Informações do Desligamento */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
-          <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
-            Informações do Desligamento
-          </h3>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Data de Desligamento */}
-            <DateInput
-              value={formData.dtDeslig}
-              onChange={(value) => handleFieldChange('dtDeslig', value)}
-              label="Data de Desligamento"
-              error={errors.dtDeslig}
-              tooltip="Data de desligamento do trabalhador"
-            />
-            
-            {/* Motivo de Desligamento */}
-            <SelectInput
-              value={formData.mtvDeslig}
-              onChange={(value) => handleFieldChange('mtvDeslig', value)}
-              options={motivoDesligamentoOptions}
-              label="Motivo de Desligamento"
-              placeholder="Selecione o motivo"
-              error={errors.mtvDeslig}
-            />
-            
-            {/* Data Projetada para Fim do Aviso Prévio Indenizado */}
-            <div className="md:col-span-2">
-              <DateInput
-                value={formData.dtProjFimAPI}
-                onChange={(value) => handleFieldChange('dtProjFimAPI', value)}
-                label="Data Projetada para Fim do Aviso Prévio Indenizado"
-                error={errors.dtProjFimAPI}
-                tooltip="Data projetada para o fim do aviso prévio indenizado"
-              />
-            </div>
-          </div>
-        </div>
-        
-        {/* Seção de Indicadores do Processo */}
+              {/* Seção de Indicadores do Processo */}
         <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
           <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
             Indicadores do Processo
@@ -472,6 +432,47 @@ export const Registro: React.FC = () => {
             />
           </div>
         </div>
+        
+        {/* Seção de Informações do Desligamento */}
+        <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+          <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
+            Informações do Desligamento
+          </h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Data de Desligamento */}
+            <DateInput
+              value={formData.dtDeslig}
+              onChange={(value) => handleFieldChange('dtDeslig', value)}
+              label="Data de Desligamento"
+              error={errors.dtDeslig}
+              tooltip="Data de desligamento do trabalhador"
+            />
+            
+            {/* Motivo de Desligamento */}
+            <SelectInput
+              value={formData.mtvDeslig}
+              onChange={(value) => handleFieldChange('mtvDeslig', value)}
+              options={motivoDesligamentoOptions}
+              label="Motivo de Desligamento"
+              placeholder="Selecione o motivo"
+              error={errors.mtvDeslig}
+            />
+            
+            {/* Data Projetada para Fim do Aviso Prévio Indenizado */}
+            <div className="md:col-span-2">
+              <DateInput
+                value={formData.dtProjFimAPI}
+                onChange={(value) => handleFieldChange('dtProjFimAPI', value)}
+                label="Data Projetada para Fim do Aviso Prévio Indenizado"
+                error={errors.dtProjFimAPI}
+                tooltip="Data projetada para o fim do aviso prévio indenizado"
+              />
+            </div>
+          </div>
+        </div>
+        
+
         
         {/* Seção de Mudança de Categoria */}
         <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
