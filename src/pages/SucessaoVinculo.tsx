@@ -11,35 +11,6 @@ import { DateInput } from '../components/DateInput';
 import { formatCPF } from '../utils/cpfUtils';
 import { FormDataService } from '../services/formDataService';
 
-/**
- * SUCESSÃO DE VÍNCULO PAGE - Informações de Sucessão de Vínculo
- * 
- * Esta página permite o preenchimento das informações de sucessão de vínculo.
- * 
- * COMPONENTES UTILIZADOS:
- * 
- * 1. PageLayout: Layout padrão com breadcrumb integrado
- *    - Wrap principal da página
- *    - Breadcrumb automático baseado nos items fornecidos
- *    - Container responsivo centralizado
- * 
- * 2. PageHeader: Cabeçalho padronizado
- *    - Título principal da página
- *    - Subtítulo opcional
- *    - Exibição de CPF formatado (quando aplicável)
- * 
- * 3. ActionButtons: Botões de ação padronizados
- *    - Cancelar, Salvar Rascunho, Anterior, Próximo
- *    - Estados de loading
- *    - Configuração flexível de quais botões mostrar
- * 
- * 4. Form Components: Componentes de formulário reutilizáveis
- *    - TextInput: Campo de texto simples
- *    - SelectInput: Campo de seleção
- *    - RadioGroup: Grupo de radio buttons
- *    - DateInput: Campo de data com máscara
- */
-
 // Interface para os dados do formulário
 interface SucessaoVinculoData {
   tpInsc: string;
