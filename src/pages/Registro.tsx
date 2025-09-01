@@ -365,111 +365,55 @@ export const Registro: React.FC = () => {
                 />
               </div>
               
-              {/* Seção de Indicadores */}
+              {/* Seção de Informações do Desligamento */}
               <div className="md:col-span-2 mt-8 pt-8 border-t border-gray-200">
-                <h3 className="text-lg font-medium text-gray-900 mb-6">Indicadores do Processo</h3>
-                
-                <div className="space-y-6">
-                  {/* Indicativo de reintegração do empregado */}
-                  <RadioGroup
-                    value={formData.indReint || ''}
-                    onChange={(value) => handleFieldChange('indReint', value)}
-                    options={[
-                      { value: 'S', label: 'Sim' },
-                      { value: 'N', label: 'Não' }
-                    ]}
-                    name="indReint"
-                    label="Indicativo de reintegração do empregado"
-                    error={errors.indReint}
-                  />
-                  
-                  {/* Indicativo se houve reconhecimento de categoria do trabalhador diferente */}
-                  <RadioGroup
-                    value={formData.indCateg || ''}
-                    onChange={(value) => handleFieldChange('indCateg', value)}
-                    options={[
-                      { value: 'S', label: 'Sim' },
-                      { value: 'N', label: 'Não' }
-                    ]}
-                    name="indCateg"
-                    label="Indicativo se houve reconhecimento de categoria do trabalhador diferente da informada (no eSocial ou na GFIP) pelo declarante"
-                    required
-                    error={errors.indCateg}
-                  />
-                  
-                  {/* Indicativo se houve reconhecimento da natureza da atividade diferente */}
-                  <RadioGroup
-                    value={formData.indNatAtiv || ''}
-                    onChange={(value) => handleFieldChange('indNatAtiv', value)}
-                    options={[
-                      { value: 'S', label: 'Sim' },
-                      { value: 'N', label: 'Não' }
-                    ]}
-                    name="indNatAtiv"
-                    label="Indicativo se houve reconhecimento da natureza da atividade diferente da cadastrada pelo declarante"
-                    required
-                    error={errors.indNatAtiv}
-                  />
-                  
-                  {/* Indicativo se houve reconhecimento de motivo de desligamento diferente */}
-                  <RadioGroup
-                    value={formData.indMotDeslig || ''}
-                    onChange={(value) => handleFieldChange('indMotDeslig', value)}
-                    options={[
-                      { value: 'S', label: 'Sim' },
-                      { value: 'N', label: 'Não' }
-                    ]}
-                    name="indMotDeslig"
-                    label="Indicativo se houve reconhecimento de motivo de desligamento diferente do informado pelo declarante"
-                    required
-                    error={errors.indMotDeslig}
-                  />
-                </div>
-              </div>
-              
-              {/* Seção de Mudança de Categoria */}
-              <div className="md:col-span-2 mt-8 pt-8 border-t border-gray-200">
-                <h3 className="text-lg font-medium text-gray-900 mb-6">Mudança de Categoria</h3>
+                <h3 className="text-lg font-medium text-gray-900 mb-6">Informações do Desligamento</h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Código da Categoria */}
-                  <TextInput
-                    value={formData.codCateg || ''}
-                    onChange={(value) => handleFieldChange('codCateg', value)}
-                    label="Código da Categoria"
-                    placeholder="Digite o código da categoria"
-                    error={errors.codCateg}
-                  />
-
-                  {/* Natureza da Atividade */}
-                  <SelectInput
-                    value={formData.natAtividade || ''}
-                    onChange={(value) => handleFieldChange('natAtividade', value)}
-                    options={[
-                      {
-                        value: '1',
-                        label: 'Urbano',
-                        description: 'Atividade urbana'
-                      },
-                      {
-                        value: '2', 
-                        label: 'Rural',
-                        description: 'Atividade rural'
-                      }
-                    ]}
-                    label="Natureza da Atividade"
-                    placeholder="Selecione a natureza da atividade"
-                    error={errors.natAtividade}
-                  />
-
-                  {/* Data da Mudança */}
+                  {/* Data de desligamento */}
                   <DateInput
-                    value={formData.dtMudCategAtiv || ''}
-                    onChange={(value) => handleFieldChange('dtMudCategAtiv', value)}
-                    label="Data da Mudança"
-                    placeholder="DD/MM/AAAA"
-                    error={errors.dtMudCategAtiv}
+                    value={formData.dtDeslig || ''}
+                    onChange={(value) => handleFieldChange('dtDeslig', value)}
+                    label="Data de desligamento do vínculo"
+                    required
+                    error={errors.dtDeslig}
+                    tooltip="Data de desligamento do vínculo. Deve ser igual ou posterior à data de admissão e não superior à data atual acrescida de 10 dias corridos."
                   />
+                  
+                  {/* Motivo do desligamento */}
+                  <SelectInput
+                    value={formData.mtvDeslig || ''}
+                    onChange={(value) => handleFieldChange('mtvDeslig', value)}
+                    options={motivoDesligamentoOptions}
+                    label="Motivo do desligamento"
+                    placeholder="Selecione o motivo"
+                    required
+                    error={errors.mtvDeslig}
+                  />
+                  
+                  {/* Data projetada para término do aviso prévio indenizado */}
+                  <div className="md:col-span-2">
+                    <DateInput
+                      value={formData.dtProjFimAPI || ''}
+                      onChange={(value) => handleFieldChange('dtProjFimAPI', value)}
+                      label="Data projetada para término do aviso prévio indenizado"
+                      error={errors.dtProjFimAPI}
+                      tooltip="Data projetada para término do aviso prévio indenizado. Se informada, deve ser igual ou posterior à data de desligamento."
+                    />
+                  </div>
+                </div>
+                
+                {/* Nota informativa */}
+                <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+                  <p className="text-sm text-blue-800">
+                    <strong>Informações importantes:</strong>
+                  </p>
+                  <ul className="mt-2 text-xs text-blue-700 list-disc list-inside space-y-1">
+                    <li>A data de desligamento deve ser igual ou posterior à data de admissão</li>
+                    <li>A data de desligamento não pode ser superior à data atual acrescida de 10 dias corridos</li>
+                    <li>O motivo do desligamento é obrigatório</li>
+                    <li>A data projetada do aviso prévio é opcional e deve ser posterior à data de desligamento</li>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -487,6 +431,7 @@ export const Registro: React.FC = () => {
                 value={formData.dtDeslig || ''}
                 onChange={(value) => handleFieldChange('dtDeslig', value)}
                 label="Data de desligamento do vínculo"
+                required
                 error={errors.dtDeslig}
                 tooltip="Data de desligamento do vínculo. Deve ser igual ou posterior à data de admissão e não superior à data atual acrescida de 10 dias corridos."
               />
@@ -498,8 +443,8 @@ export const Registro: React.FC = () => {
                 options={motivoDesligamentoOptions}
                 label="Motivo do desligamento"
                 placeholder="Selecione o motivo"
+                required
                 error={errors.mtvDeslig}
-                required={!!formData.dtDeslig}
               />
               
               {/* Data projetada para término do aviso prévio indenizado */}
@@ -522,15 +467,129 @@ export const Registro: React.FC = () => {
               <ul className="mt-2 text-xs text-blue-700 list-disc list-inside space-y-1">
                 <li>A data de desligamento deve ser igual ou posterior à data de admissão</li>
                 <li>A data de desligamento não pode ser superior à data atual acrescida de 10 dias corridos</li>
-                <li>O motivo do desligamento é obrigatório quando a data de desligamento é informada</li>
+                <li>O motivo do desligamento é obrigatório</li>
                 <li>A data projetada do aviso prévio é opcional e deve ser posterior à data de desligamento</li>
               </ul>
             </div>
           </div>
           
+          {/* Seção de Indicadores do Processo */}
+          <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+            <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
+              Indicadores do Processo
+            </h3>
+            
+            <div className="space-y-6">
+              {/* Indicativo de reintegração do empregado */}
+              <RadioGroup
+                value={formData.indReint || ''}
+                onChange={(value) => handleFieldChange('indReint', value)}
+                options={[
+                  { value: 'S', label: 'Sim' },
+                  { value: 'N', label: 'Não' }
+                ]}
+                name="indReint"
+                label="Indicativo de reintegração do empregado"
+                error={errors.indReint}
+              />
+              
+              {/* Indicativo se houve reconhecimento de categoria do trabalhador diferente */}
+              <RadioGroup
+                value={formData.indCateg || ''}
+                onChange={(value) => handleFieldChange('indCateg', value)}
+                options={[
+                  { value: 'S', label: 'Sim' },
+                  { value: 'N', label: 'Não' }
+                ]}
+                name="indCateg"
+                label="Indicativo se houve reconhecimento de categoria do trabalhador diferente da informada (no eSocial ou na GFIP) pelo declarante"
+                required
+                error={errors.indCateg}
+              />
+              
+              {/* Indicativo se houve reconhecimento da natureza da atividade diferente */}
+              <RadioGroup
+                value={formData.indNatAtiv || ''}
+                onChange={(value) => handleFieldChange('indNatAtiv', value)}
+                options={[
+                  { value: 'S', label: 'Sim' },
+                  { value: 'N', label: 'Não' }
+                ]}
+                name="indNatAtiv"
+                label="Indicativo se houve reconhecimento da natureza da atividade diferente da cadastrada pelo declarante"
+                required
+                error={errors.indNatAtiv}
+              />
+              
+              {/* Indicativo se houve reconhecimento de motivo de desligamento diferente */}
+              <RadioGroup
+                value={formData.indMotDeslig || ''}
+                onChange={(value) => handleFieldChange('indMotDeslig', value)}
+                options={[
+                  { value: 'S', label: 'Sim' },
+                  { value: 'N', label: 'Não' }
+                ]}
+                name="indMotDeslig"
+                label="Indicativo se houve reconhecimento de motivo de desligamento diferente do informado pelo declarante"
+                required
+                error={errors.indMotDeslig}
+              />
+            </div>
+          </div>
+          
+          {/* Seção de Mudança de Categoria */}
+          <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+            <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
+              Mudança de Categoria
+            </h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Código da Categoria */}
+              <TextInput
+                value={formData.codCateg || ''}
+                onChange={(value) => handleFieldChange('codCateg', value)}
+                label="Código da Categoria"
+                placeholder="Digite o código da categoria"
+                error={errors.codCateg}
+              />
+
+              {/* Natureza da Atividade */}
+              <SelectInput
+                value={formData.natAtividade || ''}
+                onChange={(value) => handleFieldChange('natAtividade', value)}
+                options={[
+                  {
+                    value: '1',
+                    label: 'Urbano',
+                    description: 'Atividade urbana'
+                  },
+                  {
+                    value: '2', 
+                    label: 'Rural',
+                    description: 'Atividade rural'
+                  }
+                ]}
+                label="Natureza da Atividade"
+                placeholder="Selecione a natureza da atividade"
+                error={errors.natAtividade}
+              />
+
+              {/* Data da Mudança */}
+              <DateInput
+                value={formData.dtMudCategAtiv || ''}
+                onChange={(value) => handleFieldChange('dtMudCategAtiv', value)}
+                label="Data da Mudança"
+                placeholder="DD/MM/AAAA"
+                error={errors.dtMudCategAtiv}
+              />
+            </div>
+          </div>
+          
           {/* Seção de Informações Complementares do Contrato */}
-          <div className="md:col-span-2 mt-8 pt-8 border-t border-gray-200">
-            <h3 className="text-lg font-medium text-gray-900 mb-6">Informações Complementares do Contrato</h3>
+          <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+            <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
+              Informações Complementares do Contrato
+            </h3>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Código CBO */}
@@ -563,104 +622,6 @@ export const Registro: React.FC = () => {
                 label="Natureza da Atividade"
                 placeholder="Selecione a natureza da atividade"
                 error={errors.natAtividadeCompl}
-              />
-            </div>
-          </div>
-          
-          {/* Seção de Informações de Vínculo Trabalhista */}
-          <div className="md:col-span-2 mt-8 pt-8 border-t border-gray-200">
-            <h3 className="text-lg font-medium text-gray-900 mb-6">Informações de Vínculo Trabalhista</h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Tipo de regime trabalhista */}
-              <SelectInput
-                value={formData.tpRegTrab || ''}
-                onChange={(value) => handleFieldChange('tpRegTrab', value)}
-                options={[
-                  {
-                    value: '1',
-                    label: 'CLT – Consolidação das Leis do Trabalho',
-                    description: 'CLT – Consolidação das Leis do Trabalho e legislações trabalhistas específicas'
-                  },
-                  {
-                    value: '2',
-                    label: 'Estatutário/legislações específicas',
-                    description: 'Estatutário/legislações específicas (servidor temporário, militar, agente político etc.)'
-                  }
-                ]}
-                label="Tipo de regime trabalhista"
-                placeholder="Selecione o tipo de regime trabalhista"
-                required
-                error={errors.tpRegTrab}
-              />
-              
-              {/* Tipo de regime previdenciário */}
-              <SelectInput
-                value={formData.tpRegPrev || ''}
-                onChange={(value) => handleFieldChange('tpRegPrev', value)}
-                options={[
-                  {
-                    value: '1',
-                    label: 'RGPS',
-                    description: 'Regime Geral de Previdência Social – RGPS'
-                  },
-                  {
-                    value: '2',
-                    label: 'RPPS',
-                    description: 'Regime Próprio de Previdência Social – RPPS'
-                  },
-                  {
-                    value: '3',
-                    label: 'Regime no exterior',
-                    description: 'Regime de Previdência Social no exterior'
-                  }
-                ]}
-                label="Tipo de regime previdenciário"
-                placeholder="Selecione o tipo de regime previdenciário"
-                required
-                error={errors.tpRegPrev}
-              />
-              
-              {/* Data de admissão */}
-              <DateInput
-                value={formData.dtAdm || ''}
-                onChange={(value) => handleFieldChange('dtAdm', value)}
-                label="Data de admissão"
-                placeholder="DD/MM/AAAA"
-                required
-                error={errors.dtAdm}
-                tooltip="Data de admissão do trabalhador. Deve ser posterior à data de nascimento e, se existir, anterior ou igual à data de óbito."
-              />
-              
-              {/* Código relativo ao tipo de contrato em tempo parcial */}
-              <SelectInput
-                value={formData.tpRegTrabParc || ''}
-                onChange={(value) => handleFieldChange('tpRegTrabParc', value)}
-                options={[
-                  {
-                    value: '0',
-                    label: 'Não é contrato em tempo parcial',
-                    description: 'Contrato de trabalho em tempo integral'
-                  },
-                  {
-                    value: '1',
-                    label: 'Limitado a 25 horas semanais',
-                    description: 'Contrato em tempo parcial limitado a 25 horas semanais'
-                  },
-                  {
-                    value: '2',
-                    label: 'Limitado a 30 horas semanais',
-                    description: 'Contrato em tempo parcial limitado a 30 horas semanais'
-                  },
-                  {
-                    value: '3',
-                    label: 'Limitado a 26 horas semanais',
-                    description: 'Contrato em tempo parcial limitado a 26 horas semanais'
-                  }
-                ]}
-                label="Código relativo ao tipo de contrato em tempo parcial"
-                placeholder="Selecione o tipo de contrato"
-                error={errors.tpRegTrabParc}
               />
             </div>
           </div>
