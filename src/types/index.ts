@@ -36,14 +36,6 @@ export interface ContratoFormData {
   codCateg?: string;
   natAtividade?: string;
   dtMudCategAtiv?: string;
-  // Sucessão de vínculo
-  tpInsc?: string;
-  nrInsc?: string;
-  matricAnt?: string;
-  dtTransf?: string;
-  // Término de TSVE
-  dtTerm?: string;
-  mtvDesligTSV?: string;
 }
 
 export interface IndicadoresFormData {
