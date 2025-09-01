@@ -9,7 +9,7 @@ import InformacoesDecisao from './pages/InformacoesDecisao';
 import InformacoesProcesso from './pages/InformacoesProcesso';
 import InformacoesTrabalhador from './pages/InformacoesTrabalhador';
 import MesmoProcessoMultiplosEventos from './pages/MesmoProcessoMultiplosEventos';
-import { Vinculo } from './pages/vinculo';
+import { SucessaoVinculo } from './pages/SucessaoVinculo';
 
 function App() {
   return (
