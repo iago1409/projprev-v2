@@ -364,202 +364,269 @@ export const Registro: React.FC = () => {
                   error={errors.indReintegr}
                 />
               </div>
+              
+              {/* Seção de Informações do Desligamento */}
+              <div className="md:col-span-2 mt-8 pt-8 border-t border-gray-200">
+                <h3 className="text-lg font-medium text-gray-900 mb-6">Informações do Desligamento</h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Data de desligamento */}
+                  <DateInput
+                    value={formData.dtDeslig || ''}
+                    onChange={(value) => handleFieldChange('dtDeslig', value)}
+                    label="Data de desligamento do vínculo"
+                    required
+                    error={errors.dtDeslig}
+                    tooltip="Data de desligamento do vínculo. Deve ser igual ou posterior à data de admissão e não superior à data atual acrescida de 10 dias corridos."
+                  />
+                  
+                  {/* Motivo do desligamento */}
+                  <SelectInput
+                    value={formData.mtvDeslig || ''}
+                    onChange={(value) => handleFieldChange('mtvDeslig', value)}
+                    options={motivoDesligamentoOptions}
+                    label="Motivo do desligamento"
+                    placeholder="Selecione o motivo"
+                    required
+                    error={errors.mtvDeslig}
+                  />
+                  
+                  {/* Data projetada para término do aviso prévio indenizado */}
+                  <div className="md:col-span-2">
+                    <DateInput
+                      value={formData.dtProjFimAPI || ''}
+                      onChange={(value) => handleFieldChange('dtProjFimAPI', value)}
+                      label="Data projetada para término do aviso prévio indenizado"
+                      error={errors.dtProjFimAPI}
+                      tooltip="Data projetada para término do aviso prévio indenizado. Se informada, deve ser igual ou posterior à data de desligamento."
+                    />
+                  </div>
+                </div>
+                
+                {/* Nota informativa */}
+                <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+                  <p className="text-sm text-blue-800">
+                    <strong>Informações importantes:</strong>
+                  </p>
+                  <ul className="mt-2 text-xs text-blue-700 list-disc list-inside space-y-1">
+                    <li>A data de desligamento deve ser igual ou posterior à data de admissão</li>
+                    <li>A data de desligamento não pode ser superior à data atual acrescida de 10 dias corridos</li>
+                    <li>O motivo do desligamento é obrigatório</li>
+                    <li>A data projetada do aviso prévio é opcional e deve ser posterior à data de desligamento</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Seção de Informações do Desligamento */}
+          <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+            <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
+              Informações do Desligamento
+            </h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Data de desligamento */}
+              <DateInput
+                value={formData.dtDeslig || ''}
+                onChange={(value) => handleFieldChange('dtDeslig', value)}
+                label="Data de desligamento do vínculo"
+                required
+                error={errors.dtDeslig}
+                tooltip="Data de desligamento do vínculo. Deve ser igual ou posterior à data de admissão e não superior à data atual acrescida de 10 dias corridos."
+              />
+              
+              {/* Motivo do desligamento */}
+              <SelectInput
+                value={formData.mtvDeslig || ''}
+                onChange={(value) => handleFieldChange('mtvDeslig', value)}
+                options={motivoDesligamentoOptions}
+                label="Motivo do desligamento"
+                placeholder="Selecione o motivo"
+                required
+                error={errors.mtvDeslig}
+              />
+              
+              {/* Data projetada para término do aviso prévio indenizado */}
+              <div className="md:col-span-2">
+                <DateInput
+                  value={formData.dtProjFimAPI || ''}
+                  onChange={(value) => handleFieldChange('dtProjFimAPI', value)}
+                  label="Data projetada para término do aviso prévio indenizado"
+                  error={errors.dtProjFimAPI}
+                  tooltip="Data projetada para término do aviso prévio indenizado. Se informada, deve ser igual ou posterior à data de desligamento."
+                />
+              </div>
+            </div>
+            
+            {/* Nota informativa */}
+            <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+              <p className="text-sm text-blue-800">
+                <strong>Informações importantes:</strong>
+              </p>
+              <ul className="mt-2 text-xs text-blue-700 list-disc list-inside space-y-1">
+                <li>A data de desligamento deve ser igual ou posterior à data de admissão</li>
+                <li>A data de desligamento não pode ser superior à data atual acrescida de 10 dias corridos</li>
+                <li>O motivo do desligamento é obrigatório</li>
+                <li>A data projetada do aviso prévio é opcional e deve ser posterior à data de desligamento</li>
+              </ul>
+            </div>
+          </div>
+          
+          {/* Seção de Indicadores do Processo */}
+          <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+            <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
+              Indicadores do Processo
+            </h3>
+            
+            <div className="space-y-6">
+              {/* Indicativo de reintegração do empregado */}
+              <RadioGroup
+                value={formData.indReint || ''}
+                onChange={(value) => handleFieldChange('indReint', value)}
+                options={[
+                  { value: 'S', label: 'Sim' },
+                  { value: 'N', label: 'Não' }
+                ]}
+                name="indReint"
+                label="Indicativo de reintegração do empregado"
+                error={errors.indReint}
+              />
+              
+              {/* Indicativo se houve reconhecimento de categoria do trabalhador diferente */}
+              <RadioGroup
+                value={formData.indCateg || ''}
+                onChange={(value) => handleFieldChange('indCateg', value)}
+                options={[
+                  { value: 'S', label: 'Sim' },
+                  { value: 'N', label: 'Não' }
+                ]}
+                name="indCateg"
+                label="Indicativo se houve reconhecimento de categoria do trabalhador diferente da informada (no eSocial ou na GFIP) pelo declarante"
+                required
+                error={errors.indCateg}
+              />
+              
+              {/* Indicativo se houve reconhecimento da natureza da atividade diferente */}
+              <RadioGroup
+                value={formData.indNatAtiv || ''}
+                onChange={(value) => handleFieldChange('indNatAtiv', value)}
+                options={[
+                  { value: 'S', label: 'Sim' },
+                  { value: 'N', label: 'Não' }
+                ]}
+                name="indNatAtiv"
+                label="Indicativo se houve reconhecimento da natureza da atividade diferente da cadastrada pelo declarante"
+                required
+                error={errors.indNatAtiv}
+              />
+              
+              {/* Indicativo se houve reconhecimento de motivo de desligamento diferente */}
+              <RadioGroup
+                value={formData.indMotDeslig || ''}
+                onChange={(value) => handleFieldChange('indMotDeslig', value)}
+                options={[
+                  { value: 'S', label: 'Sim' },
+                  { value: 'N', label: 'Não' }
+                ]}
+                name="indMotDeslig"
+                label="Indicativo se houve reconhecimento de motivo de desligamento diferente do informado pelo declarante"
+                required
+                error={errors.indMotDeslig}
+              />
+            </div>
+          </div>
+          
+          {/* Seção de Mudança de Categoria */}
+          <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+            <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
+              Mudança de Categoria
+            </h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Código da Categoria */}
+              <TextInput
+                value={formData.codCateg || ''}
+                onChange={(value) => handleFieldChange('codCateg', value)}
+                label="Código da Categoria"
+                placeholder="Digite o código da categoria"
+                error={errors.codCateg}
+              />
 
+              {/* Natureza da Atividade */}
+              <SelectInput
+                value={formData.natAtividade || ''}
+                onChange={(value) => handleFieldChange('natAtividade', value)}
+                options={[
+                  {
+                    value: '1',
+                    label: 'Urbano',
+                    description: 'Atividade urbana'
+                  },
+                  {
+                    value: '2', 
+                    label: 'Rural',
+                    description: 'Atividade rural'
+                  }
+                ]}
+                label="Natureza da Atividade"
+                placeholder="Selecione a natureza da atividade"
+                error={errors.natAtividade}
+              />
+
+              {/* Data da Mudança */}
+              <DateInput
+                value={formData.dtMudCategAtiv || ''}
+                onChange={(value) => handleFieldChange('dtMudCategAtiv', value)}
+                label="Data da Mudança"
+                placeholder="DD/MM/AAAA"
+                error={errors.dtMudCategAtiv}
+              />
+            </div>
+          </div>
+          
+          {/* Seção de Informações Complementares do Contrato */}
+          <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+            <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
+              Informações Complementares do Contrato
+            </h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Código CBO */}
+              <TextInput
+                value={formData.codCBO || ''}
+                onChange={(value) => handleFieldChange('codCBO', value)}
+                label="Código CBO"
+                placeholder="Digite o código CBO (6 dígitos)"
+                maxLength={6}
+                error={errors.codCBO}
+                tooltip="Código da CBO – Classificação Brasileira de Ocupações (6 posições numéricas)"
+              />
+              
+              {/* Natureza da Atividade */}
+              <SelectInput
+                value={formData.natAtividadeCompl || ''}
+                onChange={(value) => handleFieldChange('natAtividadeCompl', value)}
+                options={[
+                  {
+                    value: '1',
+                    label: 'Trabalho urbano',
+                    description: 'Atividade desenvolvida em área urbana'
+                  },
+                  {
+                    value: '2', 
+                    label: 'Trabalho rural',
+                    description: 'Atividade desenvolvida em área rural'
+                  }
+                ]}
+                label="Natureza da Atividade"
+                placeholder="Selecione a natureza da atividade"
+                error={errors.natAtividadeCompl}
+              />
             </div>
           </div>
           </>
         )}
-        
-        {/* Seção de Informações do Desligamento */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
-          <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
-            Informações do Desligamento
-          </h3>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Data de Desligamento */}
-            <DateInput
-              value={formData.dtDeslig}
-              onChange={(value) => handleFieldChange('dtDeslig', value)}
-              label="Data de Desligamento"
-              error={errors.dtDeslig}
-              tooltip="Data de desligamento do trabalhador"
-            />
-            
-            {/* Motivo de Desligamento */}
-            <SelectInput
-              value={formData.mtvDeslig}
-              onChange={(value) => handleFieldChange('mtvDeslig', value)}
-              options={motivoDesligamentoOptions}
-              label="Motivo de Desligamento"
-              placeholder="Selecione o motivo"
-              error={errors.mtvDeslig}
-            />
-            
-            {/* Data Projetada para Fim do Aviso Prévio Indenizado */}
-            <div className="md:col-span-2">
-              <DateInput
-                value={formData.dtProjFimAPI}
-                onChange={(value) => handleFieldChange('dtProjFimAPI', value)}
-                label="Data Projetada para Fim do Aviso Prévio Indenizado"
-                error={errors.dtProjFimAPI}
-                tooltip="Data projetada para o fim do aviso prévio indenizado"
-              />
-            </div>
-          </div>
-        </div>
-        
-        {/* Seção de Indicadores do Processo */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
-          <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
-            Indicadores do Processo
-          </h3>
-          
-          <div className="space-y-6">
-            {/* Indicativo de reintegração do empregado */}
-            <RadioGroup
-              value={formData.indReint || ''}
-              onChange={(value) => handleFieldChange('indReint', value)}
-              options={[
-                { value: 'S', label: 'Sim' },
-                { value: 'N', label: 'Não' }
-              ]}
-              name="indReint"
-              label="Indicativo de reintegração do empregado"
-              error={errors.indReint}
-            />
-            
-            {/* Indicativo se houve reconhecimento de categoria do trabalhador diferente */}
-            <RadioGroup
-              value={formData.indCateg || ''}
-              onChange={(value) => handleFieldChange('indCateg', value)}
-              options={[
-                { value: 'S', label: 'Sim' },
-                { value: 'N', label: 'Não' }
-              ]}
-              name="indCateg"
-              label="Indicativo se houve reconhecimento de categoria do trabalhador diferente da informada (no eSocial ou na GFIP) pelo declarante"
-              required
-              error={errors.indCateg}
-            />
-            
-            {/* Indicativo se houve reconhecimento da natureza da atividade diferente */}
-            <RadioGroup
-              value={formData.indNatAtiv || ''}
-              onChange={(value) => handleFieldChange('indNatAtiv', value)}
-              options={[
-                { value: 'S', label: 'Sim' },
-                { value: 'N', label: 'Não' }
-              ]}
-              name="indNatAtiv"
-              label="Indicativo se houve reconhecimento da natureza da atividade diferente da cadastrada pelo declarante"
-              required
-              error={errors.indNatAtiv}
-            />
-            
-            {/* Indicativo se houve reconhecimento de motivo de desligamento diferente */}
-            <RadioGroup
-              value={formData.indMotDeslig || ''}
-              onChange={(value) => handleFieldChange('indMotDeslig', value)}
-              options={[
-                { value: 'S', label: 'Sim' },
-                { value: 'N', label: 'Não' }
-              ]}
-              name="indMotDeslig"
-              label="Indicativo se houve reconhecimento de motivo de desligamento diferente do informado pelo declarante"
-              required
-              error={errors.indMotDeslig}
-            />
-          </div>
-        </div>
-        
-        {/* Seção de Mudança de Categoria */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
-          <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
-            Mudança de Categoria
-          </h3>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Código da Categoria */}
-            <TextInput
-              value={formData.codCateg || ''}
-              onChange={(value) => handleFieldChange('codCateg', value)}
-              label="Código da Categoria"
-              placeholder="Digite o código da categoria"
-              error={errors.codCateg}
-            />
-
-            {/* Natureza da Atividade */}
-            <SelectInput
-              value={formData.natAtividade || ''}
-              onChange={(value) => handleFieldChange('natAtividade', value)}
-              options={[
-                {
-                  value: '1',
-                  label: 'Urbano',
-                  description: 'Atividade urbana'
-                },
-                {
-                  value: '2', 
-                  label: 'Rural',
-                  description: 'Atividade rural'
-                }
-              ]}
-              label="Natureza da Atividade"
-              placeholder="Selecione a natureza da atividade"
-              error={errors.natAtividade}
-            />
-            {/* Data da Mudança */}
-            <DateInput
-              value={formData.dtMudCategAtiv || ''}
-              onChange={(value) => handleFieldChange('dtMudCategAtiv', value)}
-              label="Data da Mudança"
-              placeholder="DD/MM/AAAA"
-              error={errors.dtMudCategAtiv}
-            />
-          </div>
-        </div>
-        
-        {/* Seção de Informações Complementares do Contrato */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
-          <h3 className="text-lg font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">
-            Informações Complementares do Contrato
-          </h3>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Código CBO */}
-            <TextInput
-              value={formData.codCBO || ''}
-              onChange={(value) => handleFieldChange('codCBO', value)}
-              label="Código CBO"
-              placeholder="Digite o código CBO (6 dígitos)"
-              maxLength={6}
-              error={errors.codCBO}
-              tooltip="Código da CBO – Classificação Brasileira de Ocupações (6 posições numéricas)"
-            />
-            
-            {/* Natureza da Atividade */}
-            <SelectInput
-              value={formData.natAtividadeCompl || ''}
-              onChange={(value) => handleFieldChange('natAtividadeCompl', value)}
-              options={[
-                {
-                  value: '1',
-                  label: 'Trabalho urbano',
-                  description: 'Atividade desenvolvida em área urbana'
-                },
-                {
-                  value: '2', 
-                  label: 'Trabalho rural',
-                  description: 'Atividade desenvolvida em área rural'
-                }
-              ]}
-              label="Natureza da Atividade"
-              placeholder="Selecione a natureza da atividade"
-              error={errors.natAtividadeCompl}
-            />
-          </div>
-        </div>
         
         {activeTab === 'consolidacao' && <ConsolidacaoTab cpf={cpf} />}
         
@@ -572,7 +639,5 @@ export const Registro: React.FC = () => {
           isLoading={isLoading}
         />
     </PageLayout>
-        );
-      }
-  )
-}
+  );
+};
