@@ -11,7 +11,6 @@ import InformacoesTrabalhador from './pages/InformacoesTrabalhador';
 import MesmoProcessoMultiplosEventos from './pages/MesmoProcessoMultiplosEventos';
 import { SucessaoVinculo } from './pages/SucessaoVinculo';
 import { TerminoTSVE } from './pages/TerminoTSVE';
-import { VinculosIncorporados } from './pages/VinculosIncorporados';
 
 function App() {
   return (
@@ -30,7 +29,6 @@ function App() {
           <Route path="/processo/informacoes-da-decisao" element={<InformacoesDecisao />} />
           <Route path="/processo/sucessaovinculo" element={<SucessaoVinculo />} />
           <Route path="/processo/termino-tsve" element={<TerminoTSVE />} />
-          <Route path="/processo/vinculos-incorporados" element={<VinculosIncorporados />} />
         </Routes>
       </div>
     </Router>
