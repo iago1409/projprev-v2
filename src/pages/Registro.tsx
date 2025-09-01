@@ -14,6 +14,7 @@ import { TextInput } from '../components/TextInput';
 import { DateInput } from '../components/DateInput';
 import { RadioGroup } from '../components/RadioGroup';
 import { ConsolidacaoTab } from '../components/ConsolidacaoTab';
+import { SucessaoVinculoTab } from '../components/SucessaoVinculoTab';
 import { tipoContratoOptions } from '../data/tipoContratoOptions';
 
 export const Registro: React.FC = () => {
@@ -554,6 +555,8 @@ export const Registro: React.FC = () => {
           </div>
           </>
         )}
+        
+        {activeTab === 'sucessao' && <SucessaoVinculoTab cpf={cpf} />}
         
         {activeTab === 'consolidacao' && <ConsolidacaoTab cpf={cpf} />}
         
